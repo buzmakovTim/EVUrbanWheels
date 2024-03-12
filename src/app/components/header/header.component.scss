@@ -1,0 +1,80 @@
+:host{
+  position: absolute;
+  top: 0;
+  margin: 0;
+  width: 100%;
+}
+.header {
+  background-color: rgba(128, 128, 128, 0.427);
+  color: #fff;
+  padding: 10px;
+  margin: 0;
+  font-family: var(--font-regular);
+  font-weight: 300;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h1 {
+  margin: 0;
+  font-family: var(--font-main);
+}
+
+.hamburger-button {
+  display: none; /* Hide the hamburger button by default */
+  position: absolute; /* Position the hamburger button */
+  top: 10px; /* Adjust top position as needed */
+  right: 10px; /* Adjust right position as needed */
+  font-size: 20px; /* Adjust font size as needed */
+  cursor: pointer; /* Add a pointer cursor to indicate interactivity */
+  z-index: 2; /* Place the button on top of other content */
+}
+
+nav.nav-items {
+  display: flex;
+  align-items: center;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+li {
+  margin-right: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .nav-items {
+    display: none;
+    flex-direction: column;
+    top: 1%;
+    left: 0;
+    background-color: #333;
+    width: 100%;
+    z-index: 1;
+  }
+
+  /* Update the selector to target .show-menu directly */
+  .show-menu {
+    display: flex;
+  }
+
+  .hamburger-button {
+    display: block;
+  }
+}

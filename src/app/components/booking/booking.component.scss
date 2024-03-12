@@ -1,0 +1,255 @@
+.booking{
+  position: relative;
+  padding-top: 2rem;
+  h1{
+    font-family: var(--font-main);
+    font-weight: 700;
+    color: var(--font-color)
+  }
+  .closeIcon{
+      svg{
+        position: absolute;
+        top: 2rem;
+        right: 1rem;
+        min-width: 25px;
+        min-height: 25px;
+        fill: var(--font-color);
+      }
+      &:hover{
+        cursor: pointer;
+        svg{
+          fill: var(--border-color-focus);
+        }
+      }
+  }
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+
+  mat-tab-group{
+    top: 160px;
+    width: 90%;
+    max-width: 600px;
+   }
+
+  .form-wrapper{
+    width: 90%;
+    max-width: 600px;
+    padding-top: 10px;
+
+    .inputContainer{
+      position: relative;
+      width: 100%;
+      h3{
+        color: var( --font-color);
+        font-family: var(--font);
+      }
+      mat-form-field{
+        width: 100%;
+      }
+    }
+    .inputContainer-time{
+      display: flex;
+      flex-direction: row;
+
+      .hour-minute{
+        flex: 1 1 auto;
+        mat-form-field{
+          width: 180px;
+        }
+      }
+      .am-pm{
+        flex: 0 1 auto;
+        mat-form-field{
+          width: 130px;
+        }
+      }
+    }
+    .submitButton{
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+}
+@media (max-width: 560px) {
+  .booking .inputContainer-time{
+      display: flex;
+      flex-direction: column;
+    }
+}
+
+
+// Custom Styles for Form Input Field (For Appearance Outline)
+
+// Label color
+::ng-deep .mdc-text-field:not(.mdc-text-field-disabled) .mdc-floating-label {
+  color: var(--label-color);
+  font-family: var(--font);
+}
+
+//Change Mat-Input Floating Label
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label{
+  color: rgb(79, 79, 79);
+  font-family: var(--font);
+  font-family: var(--font);
+  // background-color: aqua;
+  // font-size: 14px !important;
+  padding: 0;
+}
+
+//Change Label font position
+::ng-deep .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mdc-floating-label{
+  // top: 12px !important;
+  // font-size: 12px;
+}
+
+//Change Date Picket icon color
+::ng-deep .mat-mdc-form-field svg {
+  fill: var(--label-color);
+}
+
+//Change Kable color, Background & Font-Size Where Focus After Change Label Position
+::ng-deep .mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above{
+  color: var(--placeholder-color);
+  // top: 28px !important;
+  // position: relative !important;
+  // font-weight: 300 !important;
+  // background-color: aqua;
+  // --mat-mdc-form-field-floating-label-scale: 0.8;
+}
+
+//Change Mat-Input Value Color
+::ng-deep .mdc-text-field:not(.mdc-text-field-disabled) .mdc-text-field__input{
+  color: var(--font-color);
+  font-family: var(--font);
+}
+
+//Change Mat-Input Placeholder Color
+::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder{
+  color: var(--placeholder-color);
+  font-size: 12px !important;
+}
+
+//Change caret color on focus (|)
+::ng-deep .mdc-text-field .mdc-text-field__input{
+  caret-color: rgb(21, 21, 21) !important;
+}
+
+//Change Mat-Input Border Color & Width
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing{
+  border-color: var(--border-color);
+  border-width: var(--border-width);
+}
+
+//Hover To Change Outline Color Same as border Color in Mat-Input
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline .mdc-notched-outline__trailing{
+  border-color: var(--border-color-hover);
+}
+
+//Focus To change Border Color in Mat_Input
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__trailing{
+  border-color: var(--border-color-focus);
+  // border-width: 2px;
+}
+
+
+// INVALID STATE
+
+//Border color Invalid State
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline .mdc-notched-outline__trailing {
+  border-color: var(--danger-color);
+}
+// Label color for Invalid State
+::ng-deep .mdc-text-field:not(.mdc-text-field-disabled).mdc-text-field--invalid .mdc-floating-label {
+  color: var(--danger-color);
+  font-family: var(--font);
+}
+
+//Select panel background color
+::ng-deep .cdk-overlay-container .mat-mdc-select-panel{
+  background-color: rgba(228, 228, 228, 0.931);
+}
+//Select panel Font color and family
+::ng-deep .cdk-overlay-container .mat-mdc-select-panel .mdc-list-item__primary-text{
+  color: var(--font-color);
+  font-family: var(--font);
+}
+
+// mat-mdc-select
+//Change Mat-Input-Select Value Color
+::ng-deep .mdc-text-field:not(.mdc-text-field-disabled) .mat-mdc-select{
+  color: var(--font-color);
+  font-family: var(--font);
+}
+
+// Arrow color for select drop down
+::ng-deep .mdc-text-field--outlined .mat-mdc-select-arrow svg{
+  color:  var(--placeholder-color);
+}
+
+// Tabs Styling
+
+// Tab font
+::ng-deep .mdc-tab {
+  font-family: var(--font) !important;
+}
+// change Active Tab Header Label color and font
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label{
+  color: var(--active-tab-font-color);
+  font-weight: 600;
+}
+
+// change Not Active Tab Header Label color
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab__text-label{
+  color: var(--not-active-tab-font-color);
+}
+
+// change Border underline
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline{
+  border-color: var(--underline-color);
+}
+
+// change Background Ripple color on click
+::ng-deep .mat-mdc-tab-group .mdc-tab__ripple::before,
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab .mat-ripple-element,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab-header-pagination .mat-ripple-element,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tad-link .mat-ripple-element{
+  background-color: var(--tab-background-on-click);
+}
+
+// change Active Tab Header Label
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab:not(.mat-mdc-tab-disabled).cdk-mouse-focused .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).cdk-mouse-focused .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab:not(.mat-mdc-tab-disabled).cdk-mouse-focused .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).cdk-mouse-focused .mdc-tab-indicator__content--underline{
+  border-color: var(--underline-active-color);
+}
+
+// change Border color on Hover
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab:not(.mat-mdc-tab-disabled):hover .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-group .mat-mdc-tab-link:not(.mat-mdc-tab-disabled):hover .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab:not(.mat-mdc-tab-disabled):hover .mdc-tab-indicator__content--underline,
+::ng-deep .mat-mdc-tab-nav-bar .mat-mdc-tab-link:not(.mat-mdc-tab-disabled):hover .mdc-tab-indicator__content--underline{
+  border-color: var(--underline-active-color);
+}

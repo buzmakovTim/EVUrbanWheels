@@ -1,0 +1,41 @@
+<div class="main">
+  <!-- TOP SECTION -->
+  <app-section
+    title="Header"
+    [section]="'topSection'"
+    (bookHandler)="onBookHandler($event)"
+    [isBookingExpanded]="isBookingExpanded"
+    [titleBig]="'You best personal Luxury driver'"
+    [titleSmall] = "'Your comfort is our priority'"
+  ></app-section>
+
+  <!-- <app-booking [@openClose]="isBookingExpanded? 'open' : 'closed'" (closeBooking)="onCloseBookingHandler()"></app-booking> -->
+  <app-booking (closeBooking)="onCloseBookingHandler()"></app-booking>
+
+  <!-- Services Section -->
+  <app-section
+    title="Our services"
+    [services]="services"
+    [section]="'servicesSection'"
+  ></app-section>
+
+  <!-- Quote Section -->
+  <app-section
+  [section]="'quote'"
+  [quote]="'“New chauffeur-hailing service seeks to challenge Uber, Lyft in city rides”'"
+  ></app-section>
+
+  <!-- Image Quote Section -->
+  <app-section
+  [section]="'imageQuote'"
+  [image]="'./../../../../assets/service3.jpeg'"
+  [quote]="'“I\'m more than a chauffeur, I\'m your alternative to airplane mode.”'"
+  ></app-section>
+
+  <!-- Info Cards -->
+  <app-section
+  [section]="'infoCards'"
+  [infoCards]="infoCards"
+  ></app-section>
+
+</div>

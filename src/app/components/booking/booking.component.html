@@ -1,0 +1,145 @@
+<div class="booking">
+  <h1>Booking</h1>
+  <div class="closeIcon">
+    <svg (click)="onCloseHandler()" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 48 48">
+      <path d="M 39.486328 6.9785156 A 1.50015 1.50015 0 0 0 38.439453 7.4394531 L 24 21.878906 L 9.5605469 7.4394531 A 1.50015 1.50015 0 0 0 8.484375 6.984375 A 1.50015 1.50015 0 0 0 7.4394531 9.5605469 L 21.878906 24 L 7.4394531 38.439453 A 1.50015 1.50015 0 1 0 9.5605469 40.560547 L 24 26.121094 L 38.439453 40.560547 A 1.50015 1.50015 0 1 0 40.560547 38.439453 L 26.121094 24 L 40.560547 9.5605469 A 1.50015 1.50015 0 0 0 39.486328 6.9785156 z"></path>
+    </svg>
+  </div>
+
+  <!-- <mat-tab-group *ngIf="displayBookingForm" (selectedIndexChange)="bookingTypeChanged($event)" >
+    <mat-tab label="One way" (isActive)="isOneWay"></mat-tab>
+    <mat-tab label="By the hour" (isActive)="isByTheHour"></mat-tab>
+  </mat-tab-group> -->
+
+  <div *ngIf="displayBookingForm" class="form-wrapper">
+
+    <form *ngIf="formGroup">
+      <input type="text" #pickUpLocationInputField pInputText formControlName="text" (change)="onChange($event)"/>
+    <!-- <form *ngIf="formGroup" [formGroup]="formGroup"> -->
+
+      <!-- First Name -->
+
+
+      <div class="inputContainer">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>First Name</mat-label>
+            <input formControlName="firstName" placeholder="Enter your name..." matInput>
+          </mat-form-field> -->
+      </div>
+
+      <!-- Last Name -->
+      <div class="inputContainer">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Last Name</mat-label>
+            <input formControlName="lastName" matInput>
+          </mat-form-field> -->
+      </div>
+
+      <!-- Email -->
+      <div class="inputContainer">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input formControlName="email" matInput>
+          </mat-form-field> -->
+      </div>
+
+      <!-- Pick up Location -->
+      <div class="inputContainer">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Pickup Location</mat-label>
+            <input #pickUpLocationInputField formControlName="pickupLocation" matInput>
+          </mat-form-field> -->
+      </div>
+
+      <!-- DropOff Location -->
+      <div *ngIf="isDropOffLocation" class="inputContainer">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Drop off Location</mat-label>
+            <input #dropOffLocationInputField formControlName="dropoffLocation" matInput>
+          </mat-form-field> -->
+      </div>
+
+      <!-- Duration -->
+      <div *ngIf="!isDropOffLocation" class="inputContainer">
+          <!-- <mat-form-field appearance="outline">
+            <mat-label>Duration</mat-label>
+            <mat-select formControlName="duration">
+              <mat-option *ngFor="let number of numbersArray" value="{{number}}">{{number}} hours</mat-option>
+
+            </mat-select>
+          </mat-form-field> -->
+      </div>
+
+      <!-- Pick up Date -->
+      <div class="inputContainer">
+        <!-- <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Pick up date (mm/dd/yyyy)</mat-label>
+          <input formControlName="date" matInput [matDatepickerFilter]="unavailableDays" [matDatepicker]="picker">
+
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field> -->
+      </div>
+
+      <!-- Pick up Time -->
+      <div class="inputContainer-time">
+          <!-- Hour -->
+          <div class="hour-minute">
+            <!-- <mat-form-field appearance="outline">
+              <mat-label>Hour</mat-label>
+              <mat-select formControlName="hour">
+                <mat-option *ngFor="let number of hoursArray" value="{{number}}">{{number}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+          </div>
+          <!-- Minute -->
+          <div class="hour-minute">
+            <!-- <mat-form-field appearance="outline">
+              <mat-label>Minute</mat-label>
+              <mat-select formControlName="minute">
+                <mat-option *ngFor="let number of minutesArray" value="{{number}}">{{number}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+          </div>
+          <!-- AmPm -->
+          <div class="am-pm">
+            <!-- <mat-form-field appearance="outline">
+              <mat-label>AM-PM</mat-label>
+              <mat-select formControlName="amPm">
+                <mat-option *ngFor="let number of amPm" value="{{number}}">{{number}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+          </div>
+      </div>
+
+      <div class="inputContainer">
+        <!-- <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Note for driver</mat-label>
+          <textarea formControlName="note" matInput placeholder="Ex. Pick up from back alley..."></textarea>
+        </mat-form-field> -->
+      </div>
+
+      <div class="submitButton">
+        <!-- <p-button [loading]="isLoading" label="Submit" (onClick)="onSubmitForm()"></p-button> -->
+        <app-button [title]="'Submit'" (clickEvent)="onSubmitForm()" [isLoading]="isLoading"></app-button>
+      </div>
+    </form>
+  </div>
+  <div *ngIf="displayBookingConfirmation">
+    <h3>{{bookingConfirmation}}</h3>
+    <div class="submitButton">
+      <!-- <p-button [loading]="isLoading" label="Book another day" (onClick)="onBookAnotherDay()"></p-button> -->
+      <app-button [title]="'Book another day'" (clickEvent)="onBookAnotherDay()" [isLoading]="isLoading"></app-button>
+    </div>
+  </div>
+  <div *ngIf="displayBookingFailing">
+    <h3>{{bookingErrorConfirmation}}</h3>
+    <div class="submitButton">
+      <!-- <p-button [loading]="isLoading" label="Try again" (onClick)="onBookAnotherDay()"></p-button> -->
+      <app-button [title]="'Try again'" (clickEvent)="onBookAnotherDay()" [isLoading]="isLoading"></app-button>
+    </div>
+  </div>
+</div>
+
+
+

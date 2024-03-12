@@ -1,0 +1,147 @@
+.top-section{
+  display: flex;
+  justify-content:space-between;
+  flex-direction: column;
+  align-items: center;
+  min-height: 400px;
+  width: 100%;
+  background-image: url('headerImage.png');
+  background-size: cover;
+  color: var(--font-color-white);
+  .titles{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    h1{
+      font-size: 2rem;
+      font-family: var(--font-main);
+      font-weight: 700;
+    }
+    h2{
+      font-size: 1.5rem;
+      font-family: var(--font-regular);
+      font-weight: 100;
+    }
+  }
+  .bookButton{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    min-height: 5rem;
+  }
+
+}
+
+.services-section{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 2rem;
+  h1{
+    font-size: 2rem;
+    color: var(--font-color);
+    font-family: var(--font-main);
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+  // min-height: 900px;
+  width: 100%;
+  background-color: var(--accent-color);
+  .servicesWrapper{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    .serviceContainer{
+      // width: 450px;
+      // height: 350px;
+      // background-color: rgb(219, 219, 219);
+    }
+  }
+
+}
+
+.quote-section{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  h2{
+    max-width: 1000px;
+    text-align: center;
+    line-height: 3.5rem;
+    margin: 0;
+    font-size: 2.5rem;
+    font-family: var(--font-main);
+    font-weight: 500;
+  }
+}
+
+.image-quote-section{
+  position: relative;
+  img{
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+  }
+  .quoteBlock{
+    position: absolute;
+    bottom: 3rem;
+    left: 2rem;
+    max-width: 370px;
+    // height: 100px;
+    padding: 1.5rem;
+    background-color: var(--image-quote-bgr);
+    text-align: center;
+    border-radius: var(--border-radius1);
+    h2{
+      align-self: center;
+      font-size: 1.5rem;
+      line-height: 2rem;
+      margin: 0;
+      color: var(--font-color);
+      font-family: var(--font-main);
+      font-weight: 600;
+    }
+  }
+
+}
+
+.info-cards-section{
+  padding: 3rem 0;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  max-width: 900px;
+  // height: 300px;
+  gap: 2rem;
+
+  // background-color: aquamarine;
+  .infoCardsContainer{
+    display: flex;
+    padding: 1rem;
+    align-items: center;
+    flex-direction: column;
+    width: 230px;
+    text-align: center;
+    img{
+      width: 60px;
+      margin-bottom: 1.5rem;
+    }
+    h3{
+      font-family: var(--font-main);
+      font-weight: 600;
+    }
+    p{
+      font-family: var(--font-regular);
+      // font-weight: 600;
+    }
+
+    // background-color: aqua;
+  }
+}

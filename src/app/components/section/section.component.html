@@ -1,0 +1,46 @@
+<!-- TOP section with HEADER -->
+<div *ngIf="section === 'topSection'" class="top-section">
+  <app-header></app-header>
+  <!-- TODO: remove this two div's and fix text alignments -->
+  <div></div>
+  <div></div>
+  <div class="titles">
+    <h1>{{titleBig}}</h1>
+    <h2>{{titleSmall}}</h2>
+  </div>
+  <div class="bookButton">
+    <app-button [title]="'BOOK'" (clickEvent)="onBookHandler()" [disabled]="isBookingExpanded"></app-button>
+  </div>
+</div>
+
+<!-- Services Section -->
+<div *ngIf="section === 'servicesSection'" class="services-section">
+  <h1 *ngIf="title">{{title}}</h1>
+  <div class="servicesWrapper">
+    <div class="serviceContainer" *ngFor="let service of services">
+      <app-service [title]="service.title" [image]="service.image" [description]="service.description"></app-service>
+    </div>
+  </div>
+</div>
+
+<!-- Quote Section -->
+<div *ngIf="section === 'quote'" class="quote-section">
+  <h2 *ngIf="quote">{{quote}}</h2>
+</div>
+
+<!-- Image Quote Section -->
+<div *ngIf="section === 'imageQuote'" class="image-quote-section">
+  <img [src]="image" alt="">
+    <div class="quoteBlock">
+      <h2>{{quote}}</h2>
+    </div>
+</div>
+
+<!-- Image Quote Section -->
+<div *ngIf="section === 'infoCards'" class="info-cards-section">
+  <div class="infoCardsContainer" *ngFor="let card of infoCards">
+    <img [src]="card.image" alt="">
+    <h3>{{card.title}}</h3>
+    <p>{{card.description}}</p>
+  </div>
+</div>

@@ -1,1 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
+
+:root{
+  --primary-color: rgb(65, 65, 206);
+  --accent-color: rgb(247, 247, 247);
+  --font-regular: 'Urbanist', sans-serif;
+  --font-main: 'Tajawal', sans-serif;;
+  --font-color: rgb(36, 36, 36);
+  --font-color-white: rgb(255, 255, 255);
+  --danger-color: rgb(226, 14, 14);
+  --h1-color: var(--primary-color);
+  --link-color: rgb(65, 65, 206);
+  --link-hover-color: rgb(90, 90, 207);
+  --image-quote-bgr: rgba(139, 139, 139, 0.288);
+  --border-radius1: 0.5rem;
+
+
+  // Variables for Mat-Input Fields
+  --label-color: rgb(130, 130, 130);
+  --placeholder-color: rgb(160, 160, 160);
+  --border-color: rgb(167, 167, 167);
+  --border-color-hover: rgb(207, 207, 207);
+  --border-color-focus: rgb(98, 98, 98);
+  --border-width: 1px;
+
+  // Variable for Mat-Tab
+  --active-tab-font-color: var(--primary-color);
+  --not-active-tab-font-color: rgb(113, 113, 113);
+  --underline-color: var(--primary-color);
+  --underline-active-color: rgba(65, 65, 206, 0.708);
+  --tab-background-on-click: var(--primary-color);
+}
+
+html, body {
+  padding: 0;
+  margin: 0;
+  background-color: var(--accent-color);
+  // font-family: var(--font-family-main);
+}
