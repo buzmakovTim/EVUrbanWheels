@@ -143,8 +143,10 @@
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__leading,
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__notch,
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline__trailing{
-  border-color: var(--border-color);
-  border-width: var(--border-width);
+  border-color: blue;
+  // border-width: 3px;
+  // border-color: var(--border-color);
+  // border-width: var(--border-width);
 }
 
 //Hover To Change Outline Color Same as border Color in Mat-Input

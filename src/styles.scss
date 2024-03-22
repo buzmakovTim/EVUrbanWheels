@@ -18,7 +18,7 @@
   // Variables for Mat-Input Fields
   --label-color: rgb(130, 130, 130);
   --placeholder-color: rgb(160, 160, 160);
-  --border-color: rgb(167, 167, 167);
+  --border-color: rgb(178, 37, 37);
   --border-color-hover: rgb(207, 207, 207);
   --border-color-focus: rgb(98, 98, 98);
   --border-width: 1px;
@@ -35,5 +35,8 @@ html, body {
   padding: 0;
   margin: 0;
   background-color: var(--accent-color);
-  // font-family: var(--font-family-main);
+  font-family: var(--font-family-main);
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

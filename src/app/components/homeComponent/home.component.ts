@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { InfoCards, TypeService } from '../../types';
 import { SectionComponent } from '../section/section.component';
 import { BookingComponent } from '../booking/booking.component';
@@ -22,24 +21,24 @@ import { BookingComponent } from '../booking/booking.component';
   imports: [HeaderComponent, SectionComponent, BookingComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  animations: [
-    trigger('openClose', [
-      state('open', style({
-        opacity: 1,
-        color: 'red',
-        display: 'flex',
-        height: '900px',
-      })),
-      state('closed', style({
-        opacity: 0,
-        display: 'none',
-        height: '0'
-      })),
-      transition('open <=> closed', [
-        animate('0.3s ease-in-out')
-      ]),
-    ])
-  ]
+  // animations: [
+  //   trigger('openClose', [
+  //     state('open', style({
+  //       opacity: 1,
+  //       color: 'red',
+  //       display: 'flex',
+  //       height: '900px',
+  //     })),
+  //     state('closed', style({
+  //       opacity: 0,
+  //       display: 'none',
+  //       height: '0'
+  //     })),
+  //     transition('open <=> closed', [
+  //       animate('0.3s ease-in-out')
+  //     ]),
+  //   ])
+  // ]
 })
 export class HomeComponent {
 

@@ -1,22 +1,26 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IBookingForm, TripType, UserType } from '../../types';
 import { formatTime, getWeekdaysForNextMonths } from '../../../helpers/helpers';
 import { ButtonComponent } from '../button/button.component';
 import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
-
+import {MatInputModule} from '@angular/material/input';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatSelectModule} from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
   templateUrl: './booking.component.html',
-  imports: [ButtonComponent, CommonModule, GoogleMapsModule ],
+  imports: [ButtonComponent, CommonModule, MatNativeDateModule, GoogleMapsModule, MatSelectModule, MatInputModule, ReactiveFormsModule, MatDatepickerModule, MatTabsModule],
   styleUrls: ['./booking.component.scss']
 })
 export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @Output() closeBooking = new EventEmitter();
+  // @Output() closeBooking = new EventEmitter();
 
   @ViewChild('pickUpLocationInputField')
   pickUpLocationInputField!: ElementRef;
@@ -66,7 +70,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onCloseHandler(): void {
-    this.closeBooking.emit()
+    // this.closeBooking.emit()
   }
 
   prepareForm(): void {
@@ -92,7 +96,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   private getPlaceAutocomplete() {
     setTimeout(() => {
-      // if(this.isDropOffLocation){
+      if(this.isDropOffLocation){
         const dropOffLocationInput = new google.maps.places.Autocomplete(this.pickUpLocationInputField.nativeElement,
           // TODO: Add restriction to Vancouver Area
           {
@@ -101,21 +105,21 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
           dropOffLocationInput.addListener('place_changed', () => {
           const place = dropOffLocationInput?.getPlace();
-          debugger;
+
           this.formattedDropOffLocation = place.formatted_address;
 
         });
-      // }
-        // const pickUpLocationInput = new google.maps.places.Autocomplete(this.pickUpLocationInputField.nativeElement,
-        //   // TODO: Add restriction to Vancouver Area
-        //   {
-        //       componentRestrictions: { country: 'CA' }
-        //   });
+      }
+        const pickUpLocationInput = new google.maps.places.Autocomplete(this.pickUpLocationInputField.nativeElement,
+          // TODO: Add restriction to Vancouver Area
+          {
+              componentRestrictions: { country: 'CA' }
+          });
 
-        //   pickUpLocationInput.addListener('place_changed', () => {
-        //   const place = pickUpLocationInput?.getPlace();
-        //   this.formattedPickUpLocation = place.formatted_address;
-        // });
+          pickUpLocationInput.addListener('place_changed', () => {
+          const place = pickUpLocationInput?.getPlace();
+          this.formattedPickUpLocation = place.formatted_address;
+        });
     }, 500);
   }
 

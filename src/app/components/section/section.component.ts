@@ -16,7 +16,7 @@ export class SectionComponent {
   @Input() title?: string = '';
   @Input() section?: 'topSection' | 'servicesSection' | 'quote' | 'imageQuote' | 'infoCards';
 
-  @Input() isBookingExpanded: boolean = false;
+  @Input() isBookingExpanded: boolean = true;
   @Input() services?: TypeService[];
   @Input() infoCards?: InfoCards[];
   @Input() quote?: string = '';
