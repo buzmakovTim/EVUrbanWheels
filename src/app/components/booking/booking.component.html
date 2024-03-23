@@ -122,18 +122,25 @@
       </div>
     </form>
   </div>
-  <div *ngIf="displayBookingConfirmation">
-    <h3>{{bookingConfirmation}}</h3>
-    <div class="submitButton">
-      <!-- <p-button [loading]="isLoading" label="Book another day" (onClick)="onBookAnotherDay()"></p-button> -->
-      <app-button [title]="'Book another day'" (clickEvent)="onBookAnotherDay()" [isLoading]="isLoading"></app-button>
+
+  @if(displayBookingConfirmation){
+    <div class="confirmationSuccess">
+      <h3>{{bookingConfirmation}}</h3>
+      <div class="submitButton">
+        <!-- <p-button [loading]="isLoading" label="Book another day" (onClick)="onBookAnotherDay()"></p-button> -->
+        <app-button [title]="'Book another day'" (clickEvent)="onBookAnotherDay()" [isLoading]="isLoading"></app-button>
+      </div>
     </div>
-  </div>
-  <div *ngIf="displayBookingFailing">
-    <h3>{{bookingErrorConfirmation}}</h3>
-    <div class="submitButton">
-      <!-- <p-button [loading]="isLoading" label="Try again" (onClick)="onBookAnotherDay()"></p-button> -->
-      <app-button [title]="'Try again'" (clickEvent)="onBookAnotherDay()" [isLoading]="isLoading"></app-button>
+  }
+
+  @if(displayBookingFailing){
+    <div class="confirmationFailed">
+      <h3>{{bookingErrorConfirmation}}</h3>
+      <div class="submitButton">
+        <!-- <p-button [loading]="isLoading" label="Try again" (onClick)="onBookAnotherDay()"></p-button> -->
+        <app-button [title]="'Try again'" (clickEvent)="onBookAnotherDay()" [isLoading]="isLoading"></app-button>
+      </div>
     </div>
-  </div>
+  }
+
 </div>

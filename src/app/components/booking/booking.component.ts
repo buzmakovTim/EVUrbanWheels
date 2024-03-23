@@ -31,9 +31,9 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   isDropOffLocation: boolean = true;
   displayBookingForm: boolean = true;
   displayBookingConfirmation: boolean = false;
+  displayBookingFailing: boolean = false;
   isOneWay: boolean = true;
   isByTheHour: boolean = false;
-  displayBookingFailing: boolean = false;
   isLoading: boolean = false;
   bookingConfirmation = 'Your booking is submitted! Please confirm your booking by clicking on the link in your email.'
   bookingErrorConfirmation = 'Oops... Something went wrong. Please try again'
@@ -194,7 +194,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  // oops something went wrong
+  // Call after Failed booking (when something went wrong)
   bookingFailedClearData(): void {
     setTimeout(() => {
       this.displayBookingFailing = true;
@@ -204,6 +204,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 3000);
   }
 
+  // Call after Success booking
   clearingDataAfterBooking(): void {
     //SetTimeout so loading not switch to fast to already booked confirmation
     setTimeout(() => {
