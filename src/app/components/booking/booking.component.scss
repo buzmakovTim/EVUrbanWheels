@@ -85,20 +85,32 @@
 
 // Custom Styles for Form Input Field (For Appearance Outline)
 
+//TODO: Works
 // Label color
-::ng-deep .mdc-text-field:not(.mdc-text-field-disabled) .mdc-floating-label {
+::ng-deep .mdc-text-field:not(.mdc-text-field-disabled) .mdc-floating-label.mat-mdc-floating-label {
   color: var(--label-color);
   font-family: var(--font);
 }
+//TODO: Works
+// Label color hover
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover.mdc-text-field:not(.mdc-text-field-disabled) .mdc-floating-label.mat-mdc-floating-label {
+  color: var(--label-color-hover);
+}
+
+//TODO: Works
+// Text in input color
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+  color: var(--font-color) !important;
+}
 
 //Change Mat-Input Floating Label
-::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label{
+::ng-deep .mdc-text-field--focused:not(.mdc-text-field--disabled) {
   color: rgb(79, 79, 79);
   font-family: var(--font);
   font-family: var(--font);
   // background-color: aqua;
   // font-size: 14px !important;
-  padding: 0;
+  // padding: 0;
 }
 
 //Change Label font position
@@ -114,7 +126,7 @@
 
 //Change Kable color, Background & Font-Size Where Focus After Change Label Position
 ::ng-deep .mat-mdc-form-field .mdc-text-field--outlined .mdc-notched-outline--upgraded .mdc-floating-label--float-above{
-  color: var(--placeholder-color);
+  color: var(--label-color) !important;
   // top: 28px !important;
   // position: relative !important;
   // font-weight: 300 !important;
@@ -130,7 +142,7 @@
 
 //Change Mat-Input Placeholder Color
 ::ng-deep .mdc-text-field:not(.mdc-text-field--disabled) .mdc-text-field__input::placeholder{
-  color: var(--placeholder-color);
+  color: var(--placeholder-color) !important;
   font-size: 12px !important;
 }
 
@@ -148,6 +160,7 @@
   border-width: var(--border-width);
 }
 
+//TODO: Works
 //Hover To Change Outline Color Same as border Color in Mat-Input
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline.mdc-notched-outline--upgraded .mdc-notched-outline__leading,
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline.mdc-notched-outline--upgraded .mdc-notched-outline__notch,
@@ -155,25 +168,29 @@
   border-color: var(--border-color-hover);
 }
 
+//TODO: Works
 //Focus To change Border Color in Mat_Input
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__leading,
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__notch,
-::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline__trailing{
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline--upgraded .mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline--upgraded .mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-notched-outline--upgraded .mdc-notched-outline__trailing{
   border-color: var(--border-color-focus);
-  // border-width: 2px;
+  border-width: 1px;
 }
 
 
 // INVALID STATE
 
+//TODO: Works
 //Border color Invalid State
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline .mdc-notched-outline__leading,
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline .mdc-notched-outline__notch,
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--invalid .mdc-notched-outline .mdc-notched-outline__trailing {
   border-color: var(--danger-color);
 }
+
+//TODO: Work
 // Label color for Invalid State
-::ng-deep .mdc-text-field:not(.mdc-text-field-disabled).mdc-text-field--invalid .mdc-floating-label {
+::ng-deep .mdc-text-field:not(.mdc-text-field-disabled).mdc-text-field--invalid .mdc-floating-label.mat-mdc-floating-label {
   color: var(--danger-color);
   font-family: var(--font);
 }

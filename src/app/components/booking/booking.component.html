@@ -28,7 +28,7 @@
       <div class="inputContainer">
           <mat-form-field appearance="outline">
             <mat-label>Last Name</mat-label>
-            <input formControlName="lastName" matInput>
+            <input formControlName="lastName" placeholder="Enter your last name..." matInput>
           </mat-form-field>
       </div>
 
@@ -36,7 +36,7 @@
       <div class="inputContainer">
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
-            <input formControlName="email" matInput>
+            <input formControlName="email" placeholder="Enter your email..." matInput>
           </mat-form-field>
       </div>
 
@@ -44,7 +44,7 @@
       <div class="inputContainer">
           <mat-form-field appearance="outline">
             <mat-label>Pickup Location</mat-label>
-            <input #pickUpLocationInputField formControlName="pickupLocation" matInput>
+            <input #pickUpLocationInputField formControlName="pickupLocation" placeholder="Enter pickup location..." matInput>
           </mat-form-field>
       </div>
 
@@ -52,7 +52,7 @@
       <div *ngIf="isDropOffLocation" class="inputContainer">
           <mat-form-field appearance="outline">
             <mat-label>Drop off Location</mat-label>
-            <input #dropOffLocationInputField formControlName="dropoffLocation" matInput>
+            <input #dropOffLocationInputField formControlName="dropoffLocation" placeholder="Enter drop off location..." matInput>
           </mat-form-field>
       </div>
 
@@ -71,7 +71,7 @@
       <div class="inputContainer">
         <mat-form-field class="example-full-width" appearance="outline">
           <mat-label>Pick up date (mm/dd/yyyy)</mat-label>
-          <input formControlName="date" matInput [matDatepickerFilter]="unavailableDays" [matDatepicker]="picker">
+          <input formControlName="date" matInput [matDatepickerFilter]="unavailableDays" [matDatepicker]="picker" placeholder="Enter date: mm/dd/yyyy">
           <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
