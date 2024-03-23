@@ -20,7 +20,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 })
 export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  // @Output() closeBooking = new EventEmitter();
+  @Output() closeBooking = new EventEmitter();
 
   @ViewChild('pickUpLocationInputField')
   pickUpLocationInputField!: ElementRef;
@@ -70,7 +70,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onCloseHandler(): void {
-    // this.closeBooking.emit()
+    this.closeBooking.emit()
   }
 
   prepareForm(): void {
@@ -89,15 +89,17 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  onChange(test: any): void {
-    console.log(test.target.value)
-    // const dropOffLocationInput = new google.maps.places.Autocomplete()
-    this.getPlaceAutocomplete();
-  }
+  //TODO: Might don't need it
+  // onChange(test: any): void {
+  //   console.log(test.target.value)
+  //   // const dropOffLocationInput = new google.maps.places.Autocomplete()
+  //   this.getPlaceAutocomplete();
+  // }
+
   private getPlaceAutocomplete() {
     setTimeout(() => {
       if(this.isDropOffLocation){
-        const dropOffLocationInput = new google.maps.places.Autocomplete(this.pickUpLocationInputField.nativeElement,
+        const dropOffLocationInput = new google.maps.places.Autocomplete(this.dropOffLocationInputField.nativeElement,
           // TODO: Add restriction to Vancouver Area
           {
               componentRestrictions: { country: 'CA' }
@@ -105,9 +107,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
           dropOffLocationInput.addListener('place_changed', () => {
           const place = dropOffLocationInput?.getPlace();
-
           this.formattedDropOffLocation = place.formatted_address;
-
+          //TODO: Here we can recalculate distance and Price if we will do this
         });
       }
         const pickUpLocationInput = new google.maps.places.Autocomplete(this.pickUpLocationInputField.nativeElement,
@@ -119,6 +120,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
           pickUpLocationInput.addListener('place_changed', () => {
           const place = pickUpLocationInput?.getPlace();
           this.formattedPickUpLocation = place.formatted_address;
+          //TODO: Here we can recalculate distance and Price if we will do this
         });
     }, 500);
   }
@@ -153,56 +155,15 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       if(this.formGroup.valid){
         formData.email = formData.email.toLocaleLowerCase();
         this.isLoading = true;
-          console.log(formData.note);
-          const newUser: UserType = formData;
+        console.log(formData);
 
-          //First Check if User with this email already exist
-          // this.findUserByEmail(newUser.email).subscribe((userId: number | undefined) => {
-          //   if (userId !== undefined) {
-          //     // User Exist we can do booking now
-          //     console.log('Start Booking');
-
-          //     // Make booking
-          //     this.makeBooking(this.prepareTip(userId, formData)).subscribe((confirmation: boolean) => {
-          //       if(confirmation){
-          //         // BOOKED!!!
-
-          //         this.clearingDataAfterBooking();
-          //         console.log('Booked for existing user...');
-          //       }else{
-          //         // ERROR...
-          //         // Ooops... Message
-          //         this.bookingFailedClearData();
-          //       }
-          //     });
-          //   } else {
-          //     // User not Exist we will create a user now and then Booking
-          //     console.log('Start Creating User');
-          //     this.userCreating(newUser).subscribe((userId: number | undefined) => {
-          //       if (userId !== undefined) {
-          //         // User created successfully, use the userId
-
-          //         // Make booking
-          //         this.makeBooking(this.prepareTip(userId, formData)).subscribe((confirmation: boolean) => {
-          //           if(confirmation){
-          //             // BOOKED!!!
-          //             this.clearingDataAfterBooking();
-          //             console.log('Booked for new user...');
-          //           }else{
-          //             // ERROR...
-          //             // Ooops... Message
-          //             this.bookingFailedClearData();
-          //           }
-          //         })
-
-          //       } else {
-          //         console.log('User not created...');
-          //         // User creation failed or user ID is null
-          //         // We never should be here...
-          //       }
-          //     });
-          //   }
-          // });
+        //TODO: Form is valid Trying to book. Here will be calling back end and check if everything is ok and we can make a booking
+        const isBooked = false;
+        if(isBooked){
+          this.clearingDataAfterBooking();
+        } else {
+          this.bookingFailedClearData();
+        }
       } else {
         // highlight Invalid fields when Submit
         this.validateAllFormFields(this.formGroup)

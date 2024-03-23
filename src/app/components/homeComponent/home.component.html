@@ -9,7 +9,7 @@
     [titleSmall] = "'Your comfort is our priority'"
   ></app-section>
 
-  <app-booking></app-booking>
+  <app-booking [@openClose]="isBookingExpanded? 'open' : 'closed'" (closeBooking)="onCloseBookingHandler()"></app-booking>
 
   <!-- Services Section -->
   <app-section
