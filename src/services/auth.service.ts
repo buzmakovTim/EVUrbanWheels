@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { SupabaseClient, User, createClient } from "@supabase/supabase-js";
 import { environment } from "../environments/environment";
 import { BehaviorSubject } from "rxjs";
+import { TripType, UserType } from "../app/types";
 
 
 @Injectable({
@@ -51,6 +52,56 @@ export class AuthService {
 
   logOut(){
     return this.supabase.auth.signOut()
+  }
+
+  // addUser(user: UserType) {
+  //   this.supabase
+  //   .from('users')
+  //   .insert([
+  //     { email: user.email, firstName: user.firstName, lastName: user.lastName, phone: user.phone },
+  //   ])
+  //   .select().then((data) => {
+  //     console.log('data', data);
+  //   })
+  // }
+  async addUser(user: UserType): Promise<any> {
+    try {
+      const data = await this.supabase
+        .from('users')
+        .insert([
+          { email: user.email, firstName: user.firstName, lastName: user.lastName, phone: user.phone },
+        ])
+        .select();
+
+      console.log('data', data);
+      return data;
+    } catch (error) {
+      console.error('Error adding user:', error);
+      throw error; // Re-throw the error to be handled by the caller
+    }
+  }
+
+  addTrip(trip: TripType){
+    return this.supabase
+    .from('trips')
+    .insert([
+      { userId: trip.userId, pickupLocation: trip.pickupLocation, dropoffLocation: trip.dropoffLocation, note: trip.note },
+    ])
+    .select().then((data) => {
+      console.log('data', data);
+    })
+  }
+
+  getTrips() {
+    return this.supabase
+      .from('trips')
+      .select('*')
+  }
+
+  getUsers() {
+    return this.supabase
+      .from('users')
+      .select('*')
   }
 
   get currentUser() {

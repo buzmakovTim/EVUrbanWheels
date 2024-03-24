@@ -4,4 +4,13 @@
   <button (click)="onLogin()">Login</button>
   <button (click)="onLogOut()">Log Out</button>
   <button (click)="onCurrentUser()">Current User</button>
+  <button (click)="addUser()">Add user</button>
+  <button (click)="setUsers()">Set users</button>
+
+  <div>Users: {{storeService.users().length}}</div>
+
+  @for (user of storeService.users(); track user.id) {
+    <div>ID: {{user.id}} Name: {{user.firstName}} Last Name: {{user.lastName}} Email: {{user.email}} Phone: {{user.phone}}</div>
+  }
+
 </div>

@@ -57,7 +57,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnDestroy(): void {
-    console.log('DESTROY CALLED!!!');
+    console.log('Destroy Booking Component');
   }
 
 

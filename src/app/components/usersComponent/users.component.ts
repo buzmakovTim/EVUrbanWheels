@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { AuthService } from '../../../services/auth.service';
+import { UserType } from '../../types';
+import { StoreService } from '../../store.service';
 
 @Component({
   selector: 'app-users',
@@ -11,8 +13,17 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class UsersComponent {
 
-  constructor(private auth: AuthService){
+  storeService = inject(StoreService);
 
+  constructor(private auth: AuthService){
+    if(!this.storeService.users().length){
+      this.storeService.setUsers();
+    }
+
+  }
+
+  setUsers(){
+    this.storeService.setUsers();
   }
 
   onSignUp(): void {
@@ -62,6 +73,23 @@ export class UsersComponent {
     this.auth.currentUser.subscribe((user) => {
       console.log('Current User:', user);
     });
+  }
 
+  addUser():void {
+
+    const newUser: UserType = {
+      firstName: 'Timofey',
+      lastName: 'Buzmakov',
+      email: 'buzmakov2@gmail.com',
+      phone: '+17786836161'
+    }
+
+    this.auth.addUser(newUser).then((res) => {
+      if(res){
+        console.log('!!!! USER ADDED')
+        console.log(res)
+        this.setUsers();
+      }
+    });
   }
 }
