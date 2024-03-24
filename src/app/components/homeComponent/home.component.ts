@@ -4,6 +4,7 @@ import { InfoCards, TypeService } from '../../types';
 import { SectionComponent } from '../section/section.component';
 import { BookingComponent } from '../booking/booking.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { StoreService } from '../../store.service';
 // @Component({
 //   selector: 'app-home',
 //   standalone: true,
@@ -42,6 +43,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ]
 })
 export class HomeComponent {
+
+  constructor(private storeService: StoreService){
+    this.storeService.init();
+  }
 
   isBookingExpanded: boolean = false;
 
