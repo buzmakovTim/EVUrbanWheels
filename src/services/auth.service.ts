@@ -54,16 +54,6 @@ export class AuthService {
     return this.supabase.auth.signOut()
   }
 
-  // addUser(user: UserType) {
-  //   this.supabase
-  //   .from('users')
-  //   .insert([
-  //     { email: user.email, firstName: user.firstName, lastName: user.lastName, phone: user.phone },
-  //   ])
-  //   .select().then((data) => {
-  //     console.log('data', data);
-  //   })
-  // }
   async addUser(user: UserType): Promise<any> {
     try {
       const data = await this.supabase
@@ -81,16 +71,49 @@ export class AuthService {
     }
   }
 
-  addTrip(trip: TripType){
-    return this.supabase
-    .from('trips')
-    .insert([
-      { userId: trip.userId, pickupLocation: trip.pickupLocation, dropoffLocation: trip.dropoffLocation, note: trip.note },
-    ])
-    .select().then((data) => {
-      console.log('data', data);
-    })
+  async addTrip(trip: TripType): Promise<any> {
+    try {
+      const data = await this.supabase
+      .from('trips')
+      .insert([
+        { userId: trip.userId, pickupLocation: trip.pickupLocation, dropoffLocation: trip.dropoffLocation, note: trip.note },
+      ])
+      .select()
+
+        console.log('data', data);
+        return data; // You can return data if needed
+      } catch (error) {
+        console.error('Error adding trip:', error);
+        throw error; // Throw the error to handle it in the calling code
+      };
   }
+
+  async getUserByEmail(email: string): Promise<any> {
+    try {
+      const data = this.supabase
+        .from('users')
+        .select("*")
+        // Filters
+        .eq('email', email);
+
+      console.log('data', data);
+      return data;
+    } catch(error){
+      console.error('Error look user by email:', error);
+      throw error; // Re-throw the error to be handled by the caller
+    }
+  }
+
+  // addTrip(trip: TripType){
+  //   return this.supabase
+  //   .from('trips')
+  //   .insert([
+  //     { userId: trip.userId, pickupLocation: trip.pickupLocation, dropoffLocation: trip.dropoffLocation, note: trip.note },
+  //   ])
+  //   .select().then((data) => {
+  //     console.log('data', data);
+  //   })
+  // }
 
   getTrips() {
     return this.supabase

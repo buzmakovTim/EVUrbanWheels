@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IBookingForm, TripType, UserType } from '../../types';
 import { formatTime, getWeekdaysForNextMonths } from '../../../helpers/helpers';
@@ -10,6 +10,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-booking',
@@ -46,6 +47,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   private formattedDropOffLocation: string | undefined;
 
   formGroup: FormGroup | undefined = undefined;
+
+  private auth = inject(AuthService);
 
   daysNotAvailable = [...getWeekdaysForNextMonths(1).map(day => new Date(day))];
 
@@ -158,12 +161,36 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log(formData);
 
         //TODO: Form is valid Trying to book. Here will be calling back end and check if everything is ok and we can make a booking
-        const isBooked = false;
-        if(isBooked){
-          this.clearingDataAfterBooking();
-        } else {
-          this.bookingFailedClearData();
-        }
+
+        //TODO:
+        // 1 Check if User Exist in DB if yes Get Returned User ID and Updated
+        // 2 If User not Exist Create user and update Trip object with newly created used ID
+
+        this.auth.getUserByEmail(formData.email).then((data) => {
+          if(data.data.length){
+            const user: UserType = data.data[0];
+            // 1 User with this email already exist
+            // 2 Add Trip
+            const trip: TripType = this.prepareTip(user.id as number, formData)
+            this.addingTrip(trip);
+
+          } else {
+            // first create user and then create a trip
+            // TODO: ADD USER and then create a trip
+            const newUser = this.prepareUser(formData);
+            this.auth.addUser(newUser).then((data) => {
+              if(data.data.length){
+                // 1 User Created
+                // 2 Add Trip
+                const user = data.data[0];
+                console.log(data);
+                const trip: TripType = this.prepareTip(user.id as number, formData)
+                this.addingTrip(trip);
+              }
+            })
+          }
+        })
+
       } else {
         // highlight Invalid fields when Submit
         this.validateAllFormFields(this.formGroup)
@@ -177,6 +204,30 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.displayBookingFailing = false;
 
     this.getPlaceAutocomplete();
+  }
+
+  prepareUser(formData: IBookingForm): UserType {
+    return {
+      firstName: formData.firstName || undefined,
+      lastName: formData.lastName || undefined,
+      email: formData.email,
+      phone: undefined
+    }
+  }
+
+  addingTrip(trip: TripType): void {
+    this.auth.addTrip(trip).then((data) => {
+      if(data.data.length){
+        console.log('BOOKING', data);
+        //BOOKED
+        this.clearingDataAfterBooking();
+      } else {
+        this.bookingFailedClearData();
+      }
+    }).catch((error) => {
+      console.error('Booking Error', error);
+      this.bookingFailedClearData();
+    });
   }
 
   prepareTip(_userId: number, formData: IBookingForm): TripType {
@@ -215,58 +266,6 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 2000);
   }
 
-  // Create User
-  // userCreating(newUser: UserType): Observable<number | undefined> {
-  //   return this.api.createUser(newUser).pipe(
-  //     map((res: any) => {
-  //       if (res && res.id) {
-  //         // console.log('User Created!!! With id: ' + res.id);
-  //         return res.id;
-  //       } else {
-  //         return undefined;
-  //       }
-  //     }),
-  //     catchError((error: any) => {
-  //       console.error('Error creating user:', error);
-  //       return of(undefined);
-  //     })
-  //   );
-  // }
 
-  // Check if user exist
-  // findUserByEmail(email: string): Observable<number | undefined>{
-  //   return this.api.getUserByEmail(email).pipe(
-  //     map((res: any) => {
-  //       if (res && res.length) {
-  //         // console.log(`User with email: ${email} already exist`);
-  //         return res[0].id;
-  //       } else {
-  //         // console.log(`User with email: ${email} NOT exist`);
-  //         return undefined;
-  //       }
-  //     }),
-  //     catchError((error: any) => {
-  //       console.error('Error checking email:', error);
-  //       return of(undefined);
-  //     })
-  //   );
-  // }
-
-  // Check if user exist
-  // makeBooking(trip: TripType): Observable<boolean>{
-  //   return this.api.createTrip(trip).pipe(
-  //     map((res: any) => {
-  //       if (res) {
-  //         return true;
-  //       } else {
-  //         return false;
-  //       }
-  //     }),
-  //     catchError((error: any) => {
-  //       console.error('Error trip creation:', error);
-  //       return of(false);
-  //     })
-  //   );
-  // }
 
 }

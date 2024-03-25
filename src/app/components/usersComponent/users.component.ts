@@ -58,6 +58,18 @@ export class UsersComponent {
     });
   }
 
+  getUserByEmail(): void {
+    this.auth.getUserByEmail('buzmakov1@gmail.com').then((data) => {
+      if(data.data.length){
+        console.log('Get user by email', data.data[0]);
+      } else {
+        console.log('Get user by email - No Data');
+      }
+    }).catch((error) => {
+      console.error('Call user by email from User component', error);
+    })
+  }
+
   onLogOut(): void {
     this.auth.logOut().then((res) => {
       if(res.error){
