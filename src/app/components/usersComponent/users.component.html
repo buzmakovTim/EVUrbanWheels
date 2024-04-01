@@ -8,10 +8,17 @@
   <button (click)="setUsers()">Set users</button>
   <button (click)="getUserByEmail()">Get User By email</button>
 
-  <div>Users: {{storeService.users().length}}</div>
+  <div>All Users: {{storeService.users().length}}</div>
+  <div>All trips: {{storeService.trips().length}}</div>
 
   @for (user of storeService.users(); track user.id) {
-    <div>ID: {{user.id}} Name: {{user.firstName}} Last Name: {{user.lastName}} Email: {{user.email}} Phone: {{user.phone}}</div>
+    <div>ID: {{user.id}} Name: {{user.firstName}} Last Name: {{user.lastName}} Email: {{user.email}} Phone: {{user.phone}}
+      <button (click)="deleteUser(user.id)">Delete User</button>
+      @for (trip of storeService.trips(); track trip.id) {
+        <div>Trip: id-{{trip.id}} Pickup Date: {{trip.pickupDate}} </div>
+      }
+
+    </div>
   }
 
 </div>

@@ -19,6 +19,9 @@ export class UsersComponent {
     if(!this.storeService.users().length){
       this.storeService.setUsers();
     }
+    if(!this.storeService.trips().length){
+      this.storeService.setTrips();
+    }
 
   }
 
@@ -103,5 +106,11 @@ export class UsersComponent {
         this.setUsers();
       }
     });
+  }
+
+  deleteUser(id?: number): void {
+    if(id){
+      this.storeService.deleteUserById(id)
+    }
   }
 }

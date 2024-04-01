@@ -26,6 +26,12 @@ export const Store = signalStore(
     setTrips(trips: TripType[]){
       patchState(store, {trips});
     },
+    deleteUser(id: number){
+      patchState(store, {users: store.users().filter(u => u.id !== id)});
+    },
+    deleteTrip(id: number){
+      patchState(store, {trips: store.trips().filter(u => u.id !== id)});
+    },
     auth() {
       auth.currentUser.subscribe((user) => {
         if(user){

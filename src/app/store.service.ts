@@ -19,6 +19,8 @@ export class StoreService {
     this.store.auth();
   }
 
+
+
   setUsers(){
     this.db.getUsers().then((data) => {
       if(data.data){
@@ -27,6 +29,47 @@ export class StoreService {
         this.store.setUsers(data.data);
       }
     });
+  }
+
+  deleteUserById(id: number): void {
+    this.db.deleteUserById(id).then(data => {
+      if(data){
+        console.log('Trying to remove user');
+        console.log(data);
+        if(data.status === 204){
+          // Status 204 no errors
+          this.store.deleteUser(id);
+          //Also delete trips for this user.
+          const tripsToDelete = this.trips().filter(t => t.userId === id);
+          if(tripsToDelete.length){
+            tripsToDelete.forEach(trip => {
+              if(trip.id){
+                this.deleteTripById(trip.id);
+              }
+            })
+          }
+        }
+        if(data.error){
+          console.error('Error deleting user', data.error);
+        }
+      }
+    })
+  }
+
+  deleteTripById(id: number):void {
+    this.db.deleteTripById(id).then(data => {
+      if(data){
+        console.log('Removing trip');
+        console.log(data);
+        if(data.status === 204){
+          // Status 204 no errors
+          this.store.deleteTrip(id);
+        }
+        if(data.error){
+          console.error('Error deleting trip', data.error);
+        }
+      }
+    })
   }
 
   setTrips(){

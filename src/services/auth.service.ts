@@ -127,6 +127,20 @@ export class AuthService {
       .select('*')
   }
 
+  deleteUserById(id: number) {
+    return this.supabase
+      .from('users')
+      .delete()
+      .eq('id', id)
+  }
+
+  deleteTripById(id: number) {
+    return this.supabase
+      .from('trips')
+      .delete()
+      .eq('id', id)
+  }
+
   get currentUser() {
     return this._currentUser.asObservable();
   }
