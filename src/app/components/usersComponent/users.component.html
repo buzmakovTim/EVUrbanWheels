@@ -12,7 +12,7 @@
   <div>All trips: {{storeService.trips().length}}</div>
 
   @for (user of storeService.users(); track user.id) {
-    <div class="user">ID: {{user.id}} Name: {{user.firstName}} Last Name: {{user.lastName}} Email: {{user.email}} Phone: {{user.phone}}
+    <div class="bg-gray-300 p-2 m-2 rounded">ID: {{user.id}} Name: {{user.firstName}} Last Name: {{user.lastName}} Email: {{user.email}} Phone: {{user.phone}}
       <button (click)="deleteUser(user.id)">Delete User</button>
 
       @if(user.id){
