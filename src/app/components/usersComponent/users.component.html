@@ -1,19 +1,21 @@
 <div class="userWrapper">
   <app-header></app-header>
-  <button (click)="onSignUp()">Sign Up</button>
-  <button (click)="onLogin()">Login</button>
-  <button (click)="onLogOut()">Log Out</button>
-  <button (click)="onCurrentUser()">Current User</button>
-  <button (click)="addUser()">Add user</button>
-  <button (click)="setUsers()">Updated users data</button>
-  <button (click)="getUserByEmail()">Get User By email</button>
+  <div class="tempNav">
+    <button (click)="onSignUp()">Sign Up</button>
+    <button (click)="onLogin()">Login</button>
+    <button (click)="onLogOut()">Log Out</button>
+    <button (click)="onCurrentUser()">Current User</button>
+    <button (click)="addUser()">Add user</button>
+    <button (click)="setUsers()">Updated users data</button>
+    <button (click)="getUserByEmail()">Get User By email</button>
+  </div>
 
   <div>All Users: {{storeService.users().length}}</div>
   <div>All trips: {{storeService.trips().length}}</div>
 
   @for (user of storeService.users(); track user.id) {
     <div class="bg-gray-300 p-2 m-2 rounded">ID: {{user.id}} Name: {{user.firstName}} Last Name: {{user.lastName}} Email: {{user.email}} Phone: {{user.phone}}
-      <button (click)="deleteUser(user.id)">Delete User</button>
+      <button class="bg-danger-color p-1 m-1 rounded text-font-color-white" (click)="deleteUser(user.id)">Delete User</button>
 
       @if(user.id){
 
@@ -23,7 +25,7 @@
 
         @for (trip of storeService.tripsComputed().get(user.id); track trip.id) {
           <div>Trip: id-{{trip.id}} Pickup Location: {{trip.pickupLocation}} User ID: {{trip.userId}}
-            <button (click)="deleteTrip(trip.id)">Delete Trip</button>
+            <button class="bg-danger-color px-1 m-1 rounded text-font-color-white" (click)="deleteTrip(trip.id)">X</button>
           </div>
         }
       }

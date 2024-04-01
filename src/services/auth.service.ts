@@ -134,7 +134,7 @@ export class AuthService {
       .eq('id', id)
   }
 
-  deleteTripById(id: number) {
+  deleteTripById(id: string) {
     return this.supabase
       .from('trips')
       .delete()

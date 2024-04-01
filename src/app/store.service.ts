@@ -86,7 +86,7 @@ export class StoreService {
     })
   }
 
-  deleteTripById(id: number):void {
+  deleteTripById(id: string):void {
     this.db.deleteTripById(id).then(data => {
       if(data){
         console.log('Removing trip');

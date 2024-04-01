@@ -7,4 +7,10 @@
   //   border: 1px solid black;
   //   border-radius: 10px;
   // }
+  .tempNav{
+    button {
+      @apply bg-primary-color p-1 m-1 rounded text-font-color-white;
+    }
+  }
+
 }

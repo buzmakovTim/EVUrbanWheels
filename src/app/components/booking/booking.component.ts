@@ -232,6 +232,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   prepareTip(_userId: number, formData: IBookingForm): TripType {
     return {
+      //TODO: Assign UUID
+      id: 'id_dddddd',
       userId: _userId,
       confirmationN: '',
       status: 'B',

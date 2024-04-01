@@ -116,7 +116,7 @@ export class UsersComponent {
     }
   }
 
-  deleteTrip(id?: number): void {
+  deleteTrip(id?: string): void {
     if(id){
       this.storeService.deleteTripById(id);
     }

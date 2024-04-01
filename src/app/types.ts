@@ -7,7 +7,7 @@ export type UserType = {
 }
 
 export type TripType = {
-  id?: number,
+  id: string,
   userId: number,
   confirmationN: string,
   status: 'B' | 'C' | 'F',
