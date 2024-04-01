@@ -27,6 +27,8 @@ export class UsersComponent {
 
   setUsers(){
     this.storeService.setUsers();
+    // Also updating trips DATA
+    this.storeService.setTrips();
   }
 
   onSignUp(): void {
@@ -111,6 +113,12 @@ export class UsersComponent {
   deleteUser(id?: number): void {
     if(id){
       this.storeService.deleteUserById(id)
+    }
+  }
+
+  deleteTrip(id?: number): void {
+    if(id){
+      this.storeService.deleteTripById(id);
     }
   }
 }
