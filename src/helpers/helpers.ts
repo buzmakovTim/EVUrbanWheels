@@ -1,4 +1,5 @@
 import { Time } from "@angular/common";
+import {v4 as uuidv4} from 'uuid';
 
 export function getWeekdaysForNextMonths(numberOfMonths: number): string[] {
   const weekdays: string[] = [];
@@ -44,4 +45,8 @@ export function formatTime(hour: number | string, minute: number | string, amPm:
   const formattedTime = `${formattedHour}:${formattedMinute}:00`;
 
   return formattedTime;
+}
+
+export function getUUID(): string {
+  return uuidv4();
 }

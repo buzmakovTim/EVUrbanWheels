@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IBookingForm, TripType, UserType } from '../../types';
-import { formatTime, getWeekdaysForNextMonths } from '../../../helpers/helpers';
+import { formatTime, getUUID, getWeekdaysForNextMonths } from '../../../helpers/helpers';
 import { ButtonComponent } from '../button/button.component';
 import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -232,8 +232,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   prepareTip(_userId: number, formData: IBookingForm): TripType {
     return {
-      //TODO: Assign UUID
-      id: 'id_dddddd',
+      id: getUUID(),
       userId: _userId,
       confirmationN: '',
       status: 'B',

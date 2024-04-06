@@ -3,6 +3,7 @@ import { HeaderComponent } from '../header/header.component';
 import { AuthService } from '../../../services/auth.service';
 import { UserType } from '../../types';
 import { StoreService } from '../../store.service';
+import { getUUID } from '../../../helpers/helpers';
 
 @Component({
   selector: 'app-users',
@@ -120,5 +121,9 @@ export class UsersComponent {
     if(id){
       this.storeService.deleteTripById(id);
     }
+  }
+
+  getGenerateUUID(): void {
+    console.log(getUUID());
   }
 }
