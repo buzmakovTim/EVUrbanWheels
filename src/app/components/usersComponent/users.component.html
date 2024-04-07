@@ -5,11 +5,8 @@
     <button (click)="onLogin()">Login</button>
     <button (click)="onLogOut()">Log Out</button>
     <button (click)="onCurrentUser()">Current User</button>
-    <button (click)="addUser()">Add user</button>
-    <button (click)="setUsers()">Updated users data</button>
+    <button (click)="setUsers()">Updated data</button>
     <button (click)="getUserByEmail()">Get User By email</button>
-    <button (click)="getGenerateUUID()">Generate UUID</button>
-    <button (click)="openModel()">Open Model</button>
   </div>
 
   <!-- TODO: Custom -->
@@ -23,7 +20,7 @@
 
   @for (user of storeService.users(); track user.id) {
     <div class="bg-gray-300 p-2 m-2 rounded">ID: {{user.id}} Name: {{user.firstName}} Last Name: {{user.lastName}} Email: {{user.email}} Phone: {{user.phone}}
-      <button class="bg-danger-color p-1 m-1 rounded text-font-color-white" (click)="deleteUser(user.id)">Delete User</button>
+      <button class="bg-danger-color p-1 m-1 rounded text-font-color-white" (click)="deleteUser(user)">Delete User</button>
 
       @if(user.id){
 
@@ -33,7 +30,8 @@
 
         @for (trip of storeService.tripsComputed().get(user.id); track trip.id) {
           <div>Trip: id-{{trip.id}} Pickup Location: {{trip.pickupLocation}} User ID: {{trip.userId}}
-            <button class="bg-danger-color px-1 m-1 rounded text-font-color-white" (click)="deleteTrip(trip.id)">X</button>
+            <button class="bg-primary-color text-white rounded m-1 p-1" (click)="openTrip(trip)">Open Trip</button>
+            <button class="bg-danger-color px-1 m-1 rounded text-font-color-white" (click)="deleteTrip(trip)">X</button>
           </div>
         }
       }

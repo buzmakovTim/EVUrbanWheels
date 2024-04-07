@@ -1,11 +1,11 @@
 import { Component, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { AuthService } from '../../../services/auth.service';
-import { UserType } from '../../types';
+import { TripType, UserType } from '../../types';
 import { StoreService } from '../../store.service';
-import { getUUID } from '../../../helpers/helpers';
 import { ModalComponent } from '../madalComponent/modal.component';
 import { ModalService } from '../../../services/modal.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -16,6 +16,7 @@ import { ModalService } from '../../../services/modal.service';
 })
 export class UsersComponent {
 
+  route = inject(Router);
   storeService = inject(StoreService);
   modalService = inject(ModalService);
 
@@ -29,15 +30,6 @@ export class UsersComponent {
     if(!this.storeService.trips().length){
       this.storeService.setTrips();
     }
-
-  }
-
-  openModel(): void {
-
-    this.modalService.open(this.viewContainer, {title: 'Confirmation', data: 'Do you want to delete this?'}).then(res => {
-      console.log('!!!!!!!!!!!!');
-      console.log(res)
-    });
 
   }
 
@@ -108,37 +100,24 @@ export class UsersComponent {
     });
   }
 
-  addUser():void {
-
-    const newUser: UserType = {
-      firstName: 'Timofey',
-      lastName: 'Buzmakov',
-      email: 'buzmakov2@gmail.com',
-      phone: '+17786836161'
-    }
-
-    this.auth.addUser(newUser).then((res) => {
-      if(res){
-        console.log('!!!! USER ADDED')
-        console.log(res)
-        this.setUsers();
+  deleteUser(user: UserType): void {
+    this.modalService.open(this.viewContainer, {title: 'Delete Confirmation', data: `Do you want to delete user: ${user.firstName} ${user.lastName}`}).then(res => {
+      if(res === 'ok'){
+        user.id && this.storeService.deleteUserById(user.id);
       }
     });
   }
 
-  deleteUser(id?: number): void {
-    if(id){
-      this.storeService.deleteUserById(id)
-    }
+  deleteTrip(trip: TripType): void {
+    this.modalService.open(this.viewContainer, {title: 'Delete Confirmation', data: `Do you want to delete this trip: ${trip.id}`}).then(res => {
+      if(res === 'ok'){
+        this.storeService.deleteTripById(trip.id);
+      }
+    });
   }
 
-  deleteTrip(id?: string): void {
-    if(id){
-      this.storeService.deleteTripById(id);
-    }
-  }
-
-  getGenerateUUID(): void {
-    console.log(getUUID());
+  openTrip(trip: TripType): void {
+    console.log('Opening trip ', trip.id);
+    this.route.navigate([`trip/${trip.id}`]);
   }
 }

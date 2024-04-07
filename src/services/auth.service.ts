@@ -76,7 +76,16 @@ export class AuthService {
       const data = await this.supabase
       .from('trips')
       .insert([
-        { userId: trip.userId, pickupLocation: trip.pickupLocation, dropoffLocation: trip.dropoffLocation, note: trip.note },
+        { id: trip.id,
+          userId: trip.userId,
+          confirmationN: trip.confirmationN,
+          status: trip.status,
+          price: trip.price,
+          pickupLocation: trip.pickupLocation,
+          dropoffLocation: trip.dropoffLocation,
+          duration: trip.duration,
+          pickupTime: trip.pickupTime,
+          note: trip.note },
       ])
       .select()
 
@@ -100,6 +109,22 @@ export class AuthService {
       return data;
     } catch(error){
       console.error('Error look user by email:', error);
+      throw error; // Re-throw the error to be handled by the caller
+    }
+  }
+
+  async getTripById(id: string): Promise<any> {
+    try {
+      const data = this.supabase
+        .from('trips')
+        .select("*")
+        // Filters
+        .eq('id', id);
+
+      console.log('data', data);
+      return data;
+    } catch(error){
+      console.error('Error look Trip by id:', error);
       throw error; // Re-throw the error to be handled by the caller
     }
   }

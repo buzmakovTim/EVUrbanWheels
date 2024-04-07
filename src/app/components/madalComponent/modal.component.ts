@@ -15,8 +15,8 @@ export type ModalType = {
 
     <div class="min-w-full min-h-full bg-black bg-opacity-40 absolute top-0 flex justify-center items-center">
         <!-- Dialog -->
-      <div class="w-80 h-48 bg-gray-50 rounded-xl flex flex-col justify-between">
-          <div class="text-base p-2 rounded-t-xl bg-primary-color text-white">Confirmation</div>
+      <div class="w-80 h-48 bg-gray-50 rounded-md flex flex-col justify-between">
+          <div class="text-base p-2 rounded-t-md bg-gray-200">{{modalData?.title || "Confirmation"}}</div>
 
           <div class="m-2">
             @if (modalData && modalData.content) {
