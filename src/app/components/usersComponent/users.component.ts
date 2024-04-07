@@ -1,28 +1,43 @@
-import { Component, inject } from '@angular/core';
+import { Component, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 import { HeaderComponent } from '../header/header.component';
 import { AuthService } from '../../../services/auth.service';
 import { UserType } from '../../types';
 import { StoreService } from '../../store.service';
 import { getUUID } from '../../../helpers/helpers';
+import { ModalComponent } from '../madalComponent/modal.component';
+import { ModalService } from '../../../services/modal.service';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [HeaderComponent],
+  imports: [HeaderComponent, ModalComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
 export class UsersComponent {
 
   storeService = inject(StoreService);
+  modalService = inject(ModalService);
 
-  constructor(private auth: AuthService){
+  constructor(
+    private auth: AuthService,
+    private viewContainer: ViewContainerRef
+    ){
     if(!this.storeService.users().length){
       this.storeService.setUsers();
     }
     if(!this.storeService.trips().length){
       this.storeService.setTrips();
     }
+
+  }
+
+  openModel(): void {
+
+    this.modalService.open(this.viewContainer, {title: 'Confirmation', data: 'Do you want to delete this?'}).then(res => {
+      console.log('!!!!!!!!!!!!');
+      console.log(res)
+    });
 
   }
 

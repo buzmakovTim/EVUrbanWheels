@@ -9,7 +9,14 @@
     <button (click)="setUsers()">Updated users data</button>
     <button (click)="getUserByEmail()">Get User By email</button>
     <button (click)="getGenerateUUID()">Generate UUID</button>
+    <button (click)="openModel()">Open Model</button>
   </div>
+
+  <!-- TODO: Custom -->
+  <!-- <ng-template #modalTemplate>
+    <div>This is custom modal content</div>
+  </ng-template> -->
+
 
   <div>All Users: {{storeService.users().length}}</div>
   <div>All trips: {{storeService.trips().length}}</div>
