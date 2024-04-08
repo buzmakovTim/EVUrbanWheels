@@ -270,7 +270,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       dropoffLocation: formData.dropoffLocation || 'N/a',
       duration: formData.duration || 0,
       pickupTime: formatTime(formData.hour || 0, formData.minute || 0, formData.amPm),
-      pickupDate: formData.date,
+      pickupDate: formData?.date ? formatDate(formData.date?.toString()) : '',
       note: formData.note || 'N/a'
     }
   }

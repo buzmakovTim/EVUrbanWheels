@@ -147,7 +147,7 @@ export class AuthService {
     }
   }
 
-  async isDataAvailable(date: Date): Promise<boolean> {
+  async isDataAvailable(date: string): Promise<boolean> {
     try {
         const data = await this.supabase
             .from('unavailable-dates')
