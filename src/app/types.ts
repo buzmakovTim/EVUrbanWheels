@@ -20,6 +20,12 @@ export type TripType = {
   note: string
 }
 
+export type UnavailableDatesType = {
+  id: number,
+  tripId: string,
+  date: Date
+}
+
 export interface IBookingForm {
   firstName: string | undefined,
   lastName: string | undefined,

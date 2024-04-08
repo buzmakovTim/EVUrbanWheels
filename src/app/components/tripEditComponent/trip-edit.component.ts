@@ -19,7 +19,9 @@ import { AuthService } from "../../../services/auth.service";
       <div>Trip UserId: {{trip.userId}}</div>
       <div>Trip STATUS: {{trip.status}}</div>
       <div>Trip Price: {{trip.price}}</div>
+      <div>Trip Duration: {{trip.duration}}</div>
       <div>Trip PickUp Time: {{trip.pickupTime}}</div>
+      <div>Trip PickUp Date: {{trip.pickupDate}}</div>
     } @else {
       <div>Trip not Found</div>
     }

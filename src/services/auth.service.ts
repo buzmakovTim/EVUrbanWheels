@@ -85,6 +85,7 @@ export class AuthService {
           dropoffLocation: trip.dropoffLocation,
           duration: trip.duration,
           pickupTime: trip.pickupTime,
+          pickupDate: trip.pickupDate,
           note: trip.note },
       ])
       .select()
@@ -95,6 +96,23 @@ export class AuthService {
         console.error('Error adding trip:', error);
         throw error; // Throw the error to handle it in the calling code
       };
+  }
+
+  async addUnavailableDate(trip: TripType): Promise<any> {
+    try {
+      const data = await this.supabase
+        .from('unavailable-dates')
+        .insert([
+          { tripId: trip.id, date: trip.pickupDate },
+        ])
+        .select();
+
+      console.log('data', data);
+      return data;
+    } catch (error) {
+      console.error('Error adding date:', error);
+      throw error; // Re-throw the error to be handled by the caller
+    }
   }
 
   async getUserByEmail(email: string): Promise<any> {
@@ -129,6 +147,20 @@ export class AuthService {
     }
   }
 
+  async isDataAvailable(date: Date): Promise<boolean> {
+    try {
+        const data = await this.supabase
+            .from('unavailable-dates')
+            .select('*')
+            .eq('date', date);
+
+        return data && data.data?.[0]; // Return true if data exists
+    } catch (error) {
+        console.error('Error looking up Trip by id:', error);
+        throw error; // Re-throw the error to be handled by the caller
+    }
+}
+
   // addTrip(trip: TripType){
   //   return this.supabase
   //   .from('trips')
@@ -149,6 +181,13 @@ export class AuthService {
   getUsers() {
     return this.supabase
       .from('users')
+      .select('*')
+  }
+
+  //TODO: Later I need tu get only future dates. Past we don't need we will do check in the component not to show past dates
+  getUnavailableDates() {
+    return this.supabase
+      .from('unavailable-dates')
       .select('*')
   }
 

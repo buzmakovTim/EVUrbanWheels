@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, computed, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IBookingForm, TripType, UserType } from '../../types';
-import { formatTime, getUUID, getWeekdaysForNextMonths } from '../../../helpers/helpers';
+import { formatDate, formatTime, getUUID, getWeekdaysForNextMonths } from '../../../helpers/helpers';
 import { ButtonComponent } from '../button/button.component';
 import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
@@ -11,6 +11,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthService } from '../../../services/auth.service';
+import { StoreService } from '../../store.service';
 
 @Component({
   selector: 'app-booking',
@@ -49,12 +50,19 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   formGroup: FormGroup | undefined = undefined;
 
   private auth = inject(AuthService);
+  private store = inject(StoreService)
 
   daysNotAvailable = [...getWeekdaysForNextMonths(1).map(day => new Date(day))];
 
+  daysNotAvailableSignal = computed(() => {
+    // const date = this.store.unavailableDates()
+    const unavailableFromBE: Date[] = this.store.unavailableDates().map(d => new Date(formatDate(d.date.toString())))
+    return [...getWeekdaysForNextMonths(1).map(day => new Date(day)), ...unavailableFromBE]
+  });
+
   unavailableDays = (d: Date | null): boolean => {
     const time=d?.getTime();
-    return !this.daysNotAvailable.find(x=>x.getTime()==time);
+    return !this.daysNotAvailableSignal().find(x=>x.getTime()==time);
   }
 
   constructor(private formBuilder: FormBuilder) {}
@@ -65,6 +73,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnInit(): void {
+    this.store.setUnavailableDates();
     this.prepareForm();
   }
 
@@ -220,7 +229,27 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       if(data.data.length){
         console.log('BOOKING', data);
         //BOOKED
-        this.clearingDataAfterBooking();
+
+        //TODO: Check of Data already Exist in BD
+
+        trip.pickupDate && this.auth.isDataAvailable(trip.pickupDate).then((res) => {
+          if(!res){
+            // Data Available Can add to DB
+            console.log('Data Available!');
+
+            this.auth.addUnavailableDate(trip).then((data) => {
+              if(data.data.length){
+                console.log('Adding Unavailable Date', data);
+                // Clear only if Trip Added ad Date added
+                this.clearingDataAfterBooking()
+              }
+            });
+
+          } else {
+            console.log('Data not Available any more');
+          }
+        });
+        // this.clearingDataAfterBooking();
       } else {
         this.bookingFailedClearData();
       }

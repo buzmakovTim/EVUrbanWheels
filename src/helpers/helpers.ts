@@ -21,7 +21,14 @@ export function getWeekdaysForNextMonths(numberOfMonths: number): string[] {
       }
     }
   }
+  console.log('Formated DATES');
+  console.log(weekdays)
   return weekdays;
+}
+
+export function formatDate(dateString: string): string {
+  const date = new Date(dateString)
+  return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getUTCDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
 }
 
 export function formatTime(hour: number | string, minute: number | string, amPm: 'AM' | 'PM'): string {

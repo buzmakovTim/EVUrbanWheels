@@ -15,6 +15,7 @@ export class StoreService {
   isAuthenticated = this.store.isAuthenticated;
   users = this.store.users;
   trips = this.store.trips;
+  unavailableDates = this.store.unavailableDates;
 
 
   tripsComputed = computed(() => {
@@ -57,6 +58,16 @@ export class StoreService {
         console.log('GET ALL Trips');
         console.log(data);
         this.store.setTrips(data.data);
+      }
+    });
+  }
+
+  setUnavailableDates(){
+    this.db.getUnavailableDates().then((data) => {
+      if(data.data){
+        console.log('GET ALL Unavailable Dates');
+        console.log(data);
+        this.store.setUnavailableDates(data.data);
       }
     });
   }
