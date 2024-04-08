@@ -23,7 +23,7 @@ export type TripType = {
 export type UnavailableDatesType = {
   id: number,
   tripId: string,
-  date: Date
+  date: string
 }
 
 export interface IBookingForm {

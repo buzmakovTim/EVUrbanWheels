@@ -56,7 +56,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   daysNotAvailableSignal = computed(() => {
     // const date = this.store.unavailableDates()
-    const unavailableFromBE: Date[] = this.store.unavailableDates().map(d => new Date(formatDate(d.date.toString())))
+    const unavailableFromBE: Date[] = this.store.unavailableDates().map(d => new Date(d.date))
     return [...getWeekdaysForNextMonths(1).map(day => new Date(day)), ...unavailableFromBE]
   });
 
