@@ -16,8 +16,8 @@ export function getWeekdaysForNextMonths(numberOfMonths: number): string[] {
     for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
       const dayOfWeek = date.getDay();
       if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
-        weekdays.push(formattedDate);
+        // const formattedDate = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+        weekdays.push(formatDate(date));
       }
     }
   }
@@ -26,8 +26,9 @@ export function getWeekdaysForNextMonths(numberOfMonths: number): string[] {
   return weekdays;
 }
 // Format date to mm/dd/yyyy
-export function formatDate(dateString: string): string {
-  const date = new Date(dateString)
+export function formatDate(dateString: string | Date): string {
+  const date = typeof(dateString) === 'string' ? new Date(dateString) : dateString
+  debugger;
   return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getUTCDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
 }
 

@@ -260,6 +260,9 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   prepareTip(_userId: number, formData: IBookingForm): TripType {
+    // const todayNotFormated = (new Date).toString();
+    const today = formatDate(new Date)
+    debugger
     return {
       id: getUUID(),
       userId: _userId,
@@ -271,7 +274,9 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       duration: formData.duration || 0,
       pickupTime: formatTime(formData.hour || 0, formData.minute || 0, formData.amPm),
       pickupDate: formData?.date ? formatDate(formData.date?.toString()) : '',
-      note: formData.note || 'N/a'
+      note: formData.note || 'N/a',
+      dateOfCreation: today,
+      dateOfModifying: today
     }
   }
 

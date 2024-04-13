@@ -17,7 +17,9 @@ export type TripType = {
   duration: number | 0,
   pickupTime: string | undefined,
   pickupDate: string | undefined,
-  note: string
+  note: string,
+  dateOfCreation: string | undefined,
+  dateOfModifying: string | undefined
 }
 
 export type UnavailableDatesType = {

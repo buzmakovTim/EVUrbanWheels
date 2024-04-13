@@ -86,7 +86,10 @@ export class AuthService {
           duration: trip.duration,
           pickupTime: trip.pickupTime,
           pickupDate: trip.pickupDate,
-          note: trip.note },
+          note: trip.note,
+          dateOfCreation: trip.dateOfCreation,
+          dateOfModifying: trip.dateOfModifying
+        },
       ])
       .select()
 
