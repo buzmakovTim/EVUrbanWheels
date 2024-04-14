@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { GoogleMapsModule } from '@angular/google-maps';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatDatepicker, MatDatepickerModule} from '@angular/material/datepicker';
 import {MatSelectModule} from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthService } from '../../../services/auth.service';
@@ -24,6 +24,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Output() closeBooking = new EventEmitter();
 
+  @ViewChild('picker') picker!: MatDatepicker<any>; // Import ViewChild
+
   @ViewChild('pickUpLocationInputField')
   pickUpLocationInputField!: ElementRef;
 
@@ -35,8 +37,10 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   displayBookingConfirmation: boolean = false;
   displayBookingFailing: boolean = false;
   isOneWay: boolean = true;
+  dateValue = null;
   isByTheHour: boolean = false;
   isLoading: boolean = false;
+  isShowDateNotAvailable: boolean = false;
   bookingConfirmation = 'Your booking is submitted! Please confirm your booking by clicking on the link in your email.'
   bookingErrorConfirmation = 'Oops... Something went wrong. Please try again'
   numbersArray = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
@@ -137,6 +141,13 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 500);
   }
 
+
+
+  // Method to clear the selected date
+  clearSelectedDate() {
+    this.picker.select(null); // Set selected date to null
+  }
+
   //Function to highlight Invalid fields when Submit clicked
   validateAllFormFields(formGroup: FormGroup) {
     Object.keys(formGroup.controls).forEach(field => {
@@ -149,6 +160,17 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  public test() {
+    this.dateValue = null;
+    this.isShowDateNotAvailable = !this.isShowDateNotAvailable
+    this.picker.select(null); // Set selected date to null
+  }
+
+  dateSelected(): void {
+    console.log('Date selected');
+    this.isShowDateNotAvailable = false;
+  }
+
   // When user switched One Way and By the hour
   bookingTypeChanged(event: any) {
     this.isDropOffLocation = event === 0;
@@ -157,6 +179,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmitForm(): void {
+    this.isShowDateNotAvailable = false;
     if(this.formGroup){
       const formData: IBookingForm = this.formGroup.value;
       formData.pickupLocation = this.formattedPickUpLocation;
@@ -225,44 +248,68 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   addingTrip(trip: TripType): void {
-    this.auth.addTrip(trip).then((data) => {
-      if(data.data.length){
-        console.log('BOOKING', data);
-        //BOOKED
 
-        //TODO: Check of Data already Exist in BD
+    //TODO: Check of Data already Exist in BD
 
-        trip.pickupDate && this.auth.isDataAvailable(trip.pickupDate).then((res) => {
-          if(!res){
-            // Data Available Can add to DB
-            console.log('Data Available!');
+    trip.pickupDate && this.auth.isDataAvailable(trip.pickupDate).then((res) => {
 
+      //DATE AVAILABLE
+      if(!res){
+        // Data Available Can add to DB
+        console.log('Data Available!');
+
+
+        // Adding Trip to DB
+        this.auth.addTrip(trip).then((data) => {
+          if(data.data.length){
+            console.log('BOOKING', data);
+            //BOOKED
+
+            // Adding booked date to DB
             this.auth.addUnavailableDate(trip).then((data) => {
               if(data.data.length){
                 console.log('Adding Unavailable Date', data);
-                // Clear only if Trip Added ad Date added
                 this.clearingDataAfterBooking()
+              } else {
+                console.log('Something went wrong')
+                this.bookingFailedClearData();
+                //TODO: Date not been added need to remove the trip!!!!
               }
+            }).catch((error) => {
+              console.error('Adding unavailable date ERROR', error);
+              this.bookingFailedClearData();
+              //TODO: Date not been added need to remove the trip!!!!
             });
 
+
+            // this.clearingDataAfterBooking();
           } else {
-            console.log('Data not Available any more');
+            this.bookingFailedClearData();
           }
+        }).catch((error) => {
+          console.error('Booking Error', error);
+          this.bookingFailedClearData();
         });
-        // this.clearingDataAfterBooking();
+
+
+
+      //DATE NOT AVAILABLE...
       } else {
-        this.bookingFailedClearData();
+        console.log('Data not Available any more');
+        this.clearSelectedDate();
+        this.isShowDateNotAvailable = true;
+        this.store.setUnavailableDates();
+        this.isLoading = false;
+
+        //TODO:
+        // Stop Loading and notify User that date not Available.
       }
-    }).catch((error) => {
-      console.error('Booking Error', error);
-      this.bookingFailedClearData();
     });
+
   }
 
   prepareTip(_userId: number, formData: IBookingForm): TripType {
-    // const todayNotFormated = (new Date).toString();
     const today = formatDate(new Date)
-    debugger
     return {
       id: getUUID(),
       userId: _userId,

@@ -28,7 +28,6 @@ export function getWeekdaysForNextMonths(numberOfMonths: number): string[] {
 // Format date to mm/dd/yyyy
 export function formatDate(dateString: string | Date): string {
   const date = typeof(dateString) === 'string' ? new Date(dateString) : dateString
-  debugger;
   return `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getUTCDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
 }
 

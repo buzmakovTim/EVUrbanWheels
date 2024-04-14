@@ -69,13 +69,17 @@
 
       <!-- Pick up Date -->
       <div class="inputContainer">
-        <mat-form-field class="example-full-width" appearance="outline">
+        <mat-form-field class="example-full-width" appearance="outline" (onchange)="dateSelected()">
           <mat-label>Pick up date</mat-label>
-          <input formControlName="date" readonly matInput [matDatepickerFilter]="unavailableDays" [matDatepicker]="picker" placeholder="Enter date: mm/dd/yyyy">
+          <input formControlName="date" (dateChange)="dateSelected()" readonly matInput [matDatepickerFilter]="unavailableDays" [matDatepicker]="picker" placeholder="Enter date: mm/dd/yyyy">
           <!-- <mat-hint>MM/DD/YYYY</mat-hint> -->
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
+        <!-- Show when date booked while form were open and It can be booked the same date -->
+        @if(isShowDateNotAvailable){
+          <div class="dateError">Opps... looks like this date not available anymore</div>
+        }
       </div>
 
       <!-- Pick up Time -->
