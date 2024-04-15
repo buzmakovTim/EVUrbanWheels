@@ -5,6 +5,7 @@ import { SectionComponent } from '../section/section.component';
 import { BookingComponent } from '../booking/booking.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { StoreService } from '../../store.service';
+import { FooterComponent } from '../footer/footer.component';
 // @Component({
 //   selector: 'app-home',
 //   standalone: true,
@@ -20,7 +21,7 @@ import { StoreService } from '../../store.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, SectionComponent, BookingComponent],
+  imports: [HeaderComponent, SectionComponent, BookingComponent, FooterComponent],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   animations: [

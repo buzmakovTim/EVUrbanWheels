@@ -1,17 +1,18 @@
 <header class="header">
   <div class="container">
     <div class="logo">
-      <h1>EV Urban Wheels</h1>
+      <h1 (click)="onNavigateTo('')">EV Urban Wheels</h1>
     </div>
       <nav class="nav-items">
       <!-- <nav [ngClass]="{'show-menu': showMenu}" class="nav-items"> -->
       <!-- <button class="hamburger-button" (click)="toggleMenu()">☰</button> -->
       <ul>
-        <li><a (click)="onNavigateTo('')">Home</a></li>
+        <!-- <li><a (click)="onNavigateTo('')">Home</a></li> -->
         <li><a routerLink="">About</a></li>
         <li><a routerLink="">Services</a></li>
         <li><a routerLink="">Contact</a></li>
-        <li><a (click)="onNavigateTo('/users')">Users</a></li>
+        <li><a routerLink="">Price</a></li>
+        <!-- <li><a (click)="onNavigateTo('/users')">Users</a></li> -->
       </ul>
     </nav>
   </div>

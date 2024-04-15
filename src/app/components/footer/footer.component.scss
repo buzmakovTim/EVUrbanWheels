@@ -1,0 +1,14 @@
+.footer{
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: rgb(193, 193, 193);
+  min-height: 50px;
+  text-align: center;
+  padding: 10px;
+  .admin{
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}

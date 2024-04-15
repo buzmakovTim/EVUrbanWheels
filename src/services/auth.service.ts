@@ -26,6 +26,11 @@ export class AuthService {
       }else{
         this._currentUser.next(false);
       }
+      if(res.error){
+        console.error('AUTH ERROR', res.error);
+      }
+    }).catch((error) => {
+      console.error('Error getUser', error);
     });
 
 
