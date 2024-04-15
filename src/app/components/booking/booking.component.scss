@@ -177,10 +177,6 @@
   border-width: var(--border-width);
 }
 
-::ng-deep *::before::after{
-  border-style: none;
-}
-
 //TODO: Works
 //Hover To Change Outline Color Same as border Color in Mat-Input
 ::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled):not(.mdc-text-field--focused):hover .mdc-notched-outline.mdc-notched-outline--upgraded .mdc-notched-outline__leading,
