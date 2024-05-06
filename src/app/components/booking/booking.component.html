@@ -44,7 +44,7 @@
       <div class="inputContainer">
           <mat-form-field appearance="outline">
             <mat-label>Pickup Location</mat-label>
-            <input #pickUpLocationInputField formControlName="pickupLocation" placeholder="Enter pickup location..." matInput>
+            <input #pickUpLocationInputField formControlName="pickupLocation" placeholder="Enter pickup location..." matInput (change)="onChangeAddressHandler()">
           </mat-form-field>
       </div>
 
@@ -52,9 +52,24 @@
       <div *ngIf="isDropOffLocation" class="inputContainer">
           <mat-form-field appearance="outline">
             <mat-label>Drop off Location</mat-label>
-            <input #dropOffLocationInputField formControlName="dropoffLocation" placeholder="Enter drop off location..." matInput>
+            <input #dropOffLocationInputField formControlName="dropoffLocation" placeholder="Enter drop off location..." matInput (change)="onChangeAddressHandler()">
           </mat-form-field>
       </div>
+
+      @if(isDropOffLocation){
+
+        @if(isCalculating){
+          <div class="distance">Calculating...
+            <svg style="margin: auto; background: rgba(65, 126, 187, 0); display: block;" width="25px" height="25px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+              <circle cx="50" cy="50" r="32" stroke-width="8" stroke="#4141ce" stroke-dasharray="50.26548245743669 50.26548245743669" fill="none" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+              </circle>
+            </svg>
+          </div>
+        } @else {
+          <div class="distance">Distance: {{timeAndDistance().distance || 0}} km</div>
+        }
+      }
 
       <!-- Duration -->
       <div *ngIf="!isDropOffLocation" class="inputContainer">

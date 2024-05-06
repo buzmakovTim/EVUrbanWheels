@@ -14,6 +14,8 @@ export type TripType = {
   price: number,
   pickupLocation: string,
   dropoffLocation: string,
+  distance: number | 0,
+  travelTime: number | 0,
   duration: number | 0,
   pickupTime: string | undefined,
   pickupDate: string | undefined,

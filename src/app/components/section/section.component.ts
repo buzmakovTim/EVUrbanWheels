@@ -22,6 +22,7 @@ export class SectionComponent {
   @Input() quote?: string = '';
   @Input() image?: string = '';
   @Input() titleBig?: string = '';
+  @Input() titleMed?: string = '';
   @Input() titleSmall?: string = '';
   @Output() bookHandler = new EventEmitter<boolean>();
 

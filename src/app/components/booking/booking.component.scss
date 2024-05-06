@@ -55,6 +55,18 @@
         bottom: 5px;
       }
     }
+    .distance{
+      position: relative;
+      margin-top: -1rem;
+      margin-bottom: 1rem;
+      font-weight: 300;
+      color: var( --font-color);
+      svg{
+        position: absolute;
+        top: 0;
+        left: 6rem;
+      }
+    }
     .inputContainer-time{
       display: flex;
       flex-direction: row;

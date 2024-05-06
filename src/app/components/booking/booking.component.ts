@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, computed, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild, computed, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IBookingForm, TripType, UserType } from '../../types';
 import { formatDate, formatTime, getUUID, getWeekdaysForNextMonths } from '../../../helpers/helpers';
@@ -12,6 +12,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { AuthService } from '../../../services/auth.service';
 import { StoreService } from '../../store.service';
+import { MapService, RouteType } from '../../../services/map.service';
 
 @Component({
   selector: 'app-booking',
@@ -47,16 +48,39 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   hoursArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12];
   minutesArray = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
   amPm = ['AM', 'PM'];
+  distance = signal(0);
+  travelTime = signal(0);
+  isCalculating = false;
 
   private formattedPickUpLocation: string | undefined;
   private formattedDropOffLocation: string | undefined;
+  private route: RouteType = {
+    origin: {
+      lat: 0,
+      lng: 0
+    },
+    destination: {
+      lat: 0,
+      lng: 0
+    }
+  };
 
   formGroup: FormGroup | undefined = undefined;
 
   private auth = inject(AuthService);
   private store = inject(StoreService)
+  private mapService = inject(MapService)
 
   daysNotAvailable = [...getWeekdaysForNextMonths(1).map(day => new Date(day))];
+
+  timeAndDistance = computed<{distance: string, duration: string}>(() => {
+    const calculated = {distance: '', duration: ''}
+    if (this.distance() !== 0){
+      calculated.distance = (this.distance()/1000).toFixed(1)
+    }
+
+    return calculated;
+  });
 
   daysNotAvailableSignal = computed(() => {
     // const date = this.store.unavailableDates()
@@ -123,6 +147,10 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
           dropOffLocationInput.addListener('place_changed', () => {
           const place = dropOffLocationInput?.getPlace();
+          if(place.geometry?.location?.lat() && place.geometry?.location?.lng()){
+            this.route.destination.lat = place.geometry?.location?.lat();
+            this.route.destination.lng = place.geometry?.location?.lng();
+          }
           this.formattedDropOffLocation = place.formatted_address;
           //TODO: Here we can recalculate distance and Price if we will do this
         });
@@ -135,9 +163,17 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
           pickUpLocationInput.addListener('place_changed', () => {
           const place = pickUpLocationInput?.getPlace();
+          if(place.geometry?.location?.lat() && place.geometry?.location?.lng()){
+            this.route.origin.lat = place.geometry?.location?.lat();
+            this.route.origin.lng = place.geometry?.location?.lng();
+          }
           this.formattedPickUpLocation = place.formatted_address;
-          //TODO: Here we can recalculate distance and Price if we will do this
         });
+
+        // debugger;
+        //   if(this.route.origin.lat && this.route.origin.lng && this.route.destination.lat && this.route.destination.lng){
+        //     this.mapService.getDistance(this.route);
+        //   }
     }, 500);
   }
 
@@ -178,7 +214,28 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getPlaceAutocomplete();
   }
 
+  // When change location (show loading and calculating distance)
+  onChangeAddressHandler(): void {
+    if(this.formattedPickUpLocation || this.formattedDropOffLocation){
+      this.isCalculating = true;
+    }
+
+    setTimeout(() => {
+      if(this.route.origin.lat && this.route.origin.lng && this.route.destination.lat && this.route.destination.lng){
+        this.mapService.getDistance(this.route).then(data => {
+          this.isCalculating = false;
+          if(data.data){
+            const {distance, duration} = data.data.rows[0].elements[0];
+            this.distance.set(distance.value);
+            this.travelTime.set(duration.value);
+          }
+        })
+      }
+    }, 700);
+  }
+
   onSubmitForm(): void {
+
     this.isShowDateNotAvailable = false;
     if(this.formGroup){
       const formData: IBookingForm = this.formGroup.value;
@@ -318,6 +375,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       price: 600,
       pickupLocation: formData.pickupLocation || 'N/a',
       dropoffLocation: formData.dropoffLocation || 'N/a',
+      distance: this.distance(),
+      travelTime: this.travelTime(),
       duration: formData.duration || 0,
       pickupTime: formatTime(formData.hour || 0, formData.minute || 0, formData.amPm),
       pickupDate: formData?.date ? formatDate(formData.date?.toString()) : '',
@@ -345,6 +404,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.displayBookingForm = false;
       this.displayBookingConfirmation = true;
       this.formGroup?.reset();
+      this.distance.set(0);
+      this.travelTime.set(0);
     }, 2000);
   }
 
