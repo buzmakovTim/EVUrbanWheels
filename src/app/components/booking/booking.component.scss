@@ -67,6 +67,9 @@
         left: 6rem;
       }
     }
+    .distance.invalid{
+      color: var( --danger-color);
+    }
     .inputContainer-time{
       display: flex;
       flex-direction: row;

@@ -14,6 +14,9 @@ import { AuthService } from '../../../services/auth.service';
 import { StoreService } from '../../store.service';
 import { MapService, RouteType } from '../../../services/map.service';
 
+// Radius for what I can go max. From Vancouver
+const LIMIT_DISTANCE = 300;
+
 @Component({
   selector: 'app-booking',
   standalone: true,
@@ -82,6 +85,27 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     return calculated;
   });
 
+  distanceMessage = computed<{message: string, isValid: boolean}>(() => {
+    this.pickUpLocationInputField?.nativeElement?.classList.add('invalid');
+    const obj = {
+      message: `Distance: ${this.timeAndDistance().distance || 0}`,
+      isValid: true
+    }
+    if(this.pickUpRadiusDistance() > LIMIT_DISTANCE || this.dropOffRadiusDistance() > LIMIT_DISTANCE){
+      obj.isValid = false;
+      obj.message = this.pickUpRadiusDistance() > LIMIT_DISTANCE ?
+      `Pick up location outside of the limit ${LIMIT_DISTANCE}km` :
+      `Drop off location outside of the limit ${LIMIT_DISTANCE}km`;
+
+
+    }
+
+    return obj;
+  });
+
+  pickUpRadiusDistance = signal(0);
+  dropOffRadiusDistance = signal(0);
+
   daysNotAvailableSignal = computed(() => {
     // const date = this.store.unavailableDates()
     const unavailableFromBE: Date[] = this.store.unavailableDates().map(d => new Date(d.date))
@@ -140,7 +164,6 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       if(this.isDropOffLocation){
         const dropOffLocationInput = new google.maps.places.Autocomplete(this.dropOffLocationInputField.nativeElement,
-          // TODO: Add restriction to Vancouver Area
           {
               componentRestrictions: { country: 'CA' }
           });
@@ -169,11 +192,6 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.formattedPickUpLocation = place.formatted_address;
         });
-
-        // debugger;
-        //   if(this.route.origin.lat && this.route.origin.lng && this.route.destination.lat && this.route.destination.lng){
-        //     this.mapService.getDistance(this.route);
-        //   }
     }, 500);
   }
 
@@ -229,9 +247,26 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
             this.distance.set(distance.value);
             this.travelTime.set(duration.value);
           }
-        })
+        });
+        //TODO: Also calculate radius around Vancouver
+        this.setRadiusDistances()
       }
     }, 700);
+  }
+
+  setRadiusDistances(): void {
+    this.mapService.getGetRadiusFromPickUp(this.route).then(data => {
+      if(data.data){
+        const {distance} = data.data.rows[0].elements[0];
+        this.pickUpRadiusDistance.set(Math.ceil(distance.value/1000));
+      }
+    });
+    this.mapService.getGetRadiusFromDropOff(this.route).then(data => {
+      if(data.data){
+        const {distance} = data.data.rows[0].elements[0];
+        this.dropOffRadiusDistance.set(Math.ceil(distance.value/1000))
+      }
+    });
   }
 
   onSubmitForm(): void {
@@ -406,6 +441,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.formGroup?.reset();
       this.distance.set(0);
       this.travelTime.set(0);
+      this.pickUpRadiusDistance.set(0);
+      this.dropOffRadiusDistance.set(0);
     }, 2000);
   }
 
