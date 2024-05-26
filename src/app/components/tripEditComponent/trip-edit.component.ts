@@ -32,6 +32,7 @@ import { AuthService } from "../../../services/auth.service";
 
     <div>
       <button class="bg-primary-color text-white rounded m-1 p-1" (click)="exit()">Exit</button>
+      <button class="bg-primary-color text-white rounded m-1 p-1" (click)="exit()">Cancel the trip</button>
     </div>
   `,
   styles: `
@@ -52,7 +53,6 @@ export class TripEditComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
-        console.log('Hey!!! This is ID: ', id);
         // Make your backend call using the ID
         this.db.getTripById(id).then(data => {
           if(data && data.data[0]){

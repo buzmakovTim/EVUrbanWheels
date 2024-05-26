@@ -363,7 +363,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
             console.log('BOOKING', data);
             //BOOKED
             // SENDING CONFIRMATION EMAIL
-            this.currentUser && this.sendConfirmationEmail(this.currentUser);
+            this.currentUser && this.sendConfirmationEmail(this.currentUser, trip.id);
 
             // Adding booked date to DB
             this.auth.addUnavailableDate(trip).then((data) => {
@@ -408,12 +408,13 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  sendConfirmationEmail(user: UserType): void {
+  sendConfirmationEmail(user: UserType, trip_id: string): void {
     const message: TemplateParamsType = {
       from_name: 'EV Urban Wheels',
       to_name: `Hi ${user.firstName} ${user.lastName}`,
       message: `Hi ${user.firstName}`,
-      reply_to: user.email
+      reply_to: user.email,
+      trip_id
     }
     this.emailService.sendEmail(message);
   }

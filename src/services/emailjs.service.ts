@@ -9,6 +9,7 @@ export type TemplateParamsType = {
   from_name: string,
   to_name: string,
   message: string,
+  trip_id: string,
   reply_to: string
 }
 
