@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { AuthService } from '../../../services/auth.service';
 import { StoreService } from '../../store.service';
 import { MapService, RouteType } from '../../../services/map.service';
+import { EmailJsService, TemplateParamsType } from '../../../services/emailjs.service';
 
 // Radius for what I can go max. From Vancouver
 const LIMIT_DISTANCE = 300;
@@ -71,11 +72,13 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
   formGroup: FormGroup | undefined = undefined;
 
   private auth = inject(AuthService);
-  private store = inject(StoreService)
-  private mapService = inject(MapService)
+  private store = inject(StoreService);
+  private mapService = inject(MapService);
+  private emailService = inject(EmailJsService);
 
   daysNotAvailable = [...getWeekdaysForNextMonths(1).map(day => new Date(day))];
 
+  currentUser: UserType | undefined;
   timeAndDistance = computed<{distance: string, duration: string}>(() => {
     const calculated = {distance: '', duration: ''}
     if (this.distance() !== 0){
@@ -277,6 +280,9 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       formData.pickupLocation = this.formattedPickUpLocation;
       formData.dropoffLocation = this.formattedDropOffLocation
 
+      const {firstName, lastName, email} = formData;
+      this.setCurrentUser({firstName, lastName, email})
+
       console.log(this.formGroup.value)
 
       if(this.formGroup.valid){
@@ -356,6 +362,8 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
           if(data.data.length){
             console.log('BOOKING', data);
             //BOOKED
+            // SENDING CONFIRMATION EMAIL
+            this.currentUser && this.sendConfirmationEmail(this.currentUser);
 
             // Adding booked date to DB
             this.auth.addUnavailableDate(trip).then((data) => {
@@ -400,6 +408,24 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
+  sendConfirmationEmail(user: UserType): void {
+    const message: TemplateParamsType = {
+      from_name: 'EV Urban Wheels',
+      to_name: `Hi ${user.firstName} ${user.lastName}`,
+      message: `Hi ${user.firstName}`,
+      reply_to: user.email
+    }
+    this.emailService.sendEmail(message);
+  }
+
+  setCurrentUser(data: UserType | undefined): void {
+    if(data){
+      this.currentUser = data;
+    } else {
+      this.currentUser = undefined;
+    }
+  }
+
   prepareTip(_userId: number, formData: IBookingForm): TripType {
     const today = formatDate(new Date)
     return {
@@ -428,6 +454,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.displayBookingForm = false;
       this.isLoading = false;
       this.formGroup?.reset();
+      this.setCurrentUser(undefined);
     }, 3000);
   }
 
@@ -443,6 +470,7 @@ export class BookingComponent implements OnInit, AfterViewInit, OnDestroy {
       this.travelTime.set(0);
       this.pickUpRadiusDistance.set(0);
       this.dropOffRadiusDistance.set(0);
+      this.setCurrentUser(undefined);
     }, 2000);
   }
 
